@@ -1,11 +1,11 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<IEnumerable<Database.Group>>
+﻿@model IEnumerable<Database.Group>
 @{
     ViewBag.Title = "Groups";
 }
 
 <h2>Groups</h2>
 <ul>
-    @foreach (var group in Model.InnerModel)
+    @foreach (var group in Model)
     {
         <li>@Html.ActionLink(group.Name, "Group", new { id = group.Id }, null) @Html.ActionLink("Edit", "EditGroup", new { id = group.Id }, null)</li>
     }

@@ -1,14 +1,14 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<Database.Group>
+﻿@model Database.Group
 @{
     ViewBag.Title = "Group Members";
 }
 
-<h2>Information on group @Model.InnerModel.Name</h2>
+<h2>Information on group @Model.Name</h2>
 
-@Html.ActionLink("Edit this group", "EditGroup", new { id = Model.InnerModel.Id })
+@Html.ActionLink("Edit this group", "EditGroup", new { id = Model.Id })
 <h3>Members</h3>
 <ul>
-    @foreach (var user in Model.InnerModel.UserGroup.Select(ug => ug.User))
+    @foreach (var user in Model.UserGroup.Select(ug => ug.User))
     {
         <li>@user.Name</li>
     }
@@ -16,7 +16,7 @@
 <h3>Permissions</h3>
 <ul>
     @{
-        var groupPerms = (Database.Permissions)Model.InnerModel.Permissions;
+        var groupPerms = (Database.Permissions)Model.Permissions;
         foreach (var value in (Database.Permissions[])Enum.GetValues(typeof(Database.Permissions)))
         {
             if ((value & value - 1) != 0)

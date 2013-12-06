@@ -1,15 +1,15 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<Database.Thread>
+﻿@model Database.Thread
 @{
     ViewBag.Title = "Show";
 }
 
 <h2>Show</h2>
 <p>
-    Title: @Model.InnerModel.Title<br />
-    Author: @Model.InnerModel.User.Name
+    Title: @Model.Title<br />
+    Author: @Model.User.Name
 </p>
 
-@foreach (var post in Model.InnerModel.Post)
+@foreach (var post in Model.Post)
 {
     <div class="reply">
         <h4>Author: @post.User.Name</h4>
@@ -19,6 +19,6 @@
 
 @if(Request.IsAuthenticated)
 {
-    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.InnerModel.Id }, null) <br />
+    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Id }, null) <br />
 }
-@Html.ActionLink("Back to threads", "Index", "Thread", new { id = Model.InnerModel.ForumId }, null)
+@Html.ActionLink("Back to threads", "Index", "Thread", new { id = Model.ForumId }, null)

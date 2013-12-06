@@ -1,13 +1,13 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.LoginModel>
+﻿@model Forum.Models.LoginModel
 @{
     ViewBag.Title = "Login";
 }
 
 <h2>Login</h2>
 
-@if (Model.InnerModel.Error != null)
+@if (Model.Error != null)
 {
-    <div style="color: #d80000">@Model.InnerModel.Error</div>
+    <div style="color: #d80000">@Model.Error</div>
 }
 
 @using (Html.BeginForm())
@@ -15,18 +15,18 @@
     @Html.AntiForgeryToken()
     
     <div>
-        @Html.LabelFor(m => m.InnerModel.User.Name)
-        @Html.TextBoxFor(m => m.InnerModel.User.Name)
+        @Html.LabelFor(m => m.User.Name)
+        @Html.TextBoxFor(m => m.User.Name)
     </div>
     
     <div>
-        @Html.LabelFor(m => m.InnerModel.Password)
-        @Html.PasswordFor(m => m.InnerModel.Password)
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password)
     </div>
     
     <div>
-        @Html.LabelFor(m => m.InnerModel.KeepConnected)
-        @Html.CheckBoxFor(m => m.InnerModel.KeepConnected)
+        @Html.LabelFor(m => m.KeepConnected)
+        @Html.CheckBoxFor(m => m.KeepConnected)
     </div>
     
     <input type="submit" value="Login" />

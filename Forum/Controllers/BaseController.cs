@@ -81,20 +81,5 @@ namespace Forum.Controllers
                 }
             }
         }
-
-        protected ViewResult TypedView()
-        {
-            return View(new BaseViewModel());
-        }
-
-        protected ViewResult TypedView<T>()
-        {
-            return View(new ViewModelWrapper<T>(default(T)));
-        }
-
-        protected ViewResult TypedView<T>(T model)
-        {
-            return View(new ViewModelWrapper<T>(model));
-        }
     }
 }
