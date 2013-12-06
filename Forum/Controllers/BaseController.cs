@@ -13,12 +13,17 @@ namespace Forum.Controllers
     {
         protected ForumDataContext db = new ForumDataContext();
 
-        private void InitLayoutViewModel(LayoutViewModel lvm)
+        public static void InitLayoutViewModel(HttpContextBase context, ForumDataContext db, LayoutViewModel lvm)
         {
             lvm.Username = "foobar";
 
-            if (Request.IsAuthenticated)
-                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == User.Identity.Name);
+            if (context.Request.IsAuthenticated)
+                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == context.User.Identity.Name);
+        }
+
+        private void InitLayoutViewModel(LayoutViewModel lvm)
+        {
+            InitLayoutViewModel(HttpContext, db, lvm);
         }
 
 

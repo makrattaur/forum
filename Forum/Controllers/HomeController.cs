@@ -20,7 +20,7 @@ namespace Forum.Controllers
             model.foo = 42;
             model.bar = "foobar";
 
-            return TypedView(model);
+            return View(model);
         }
 
     }

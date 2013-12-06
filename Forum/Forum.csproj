@@ -130,6 +130,7 @@
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomAuthorizeAttribute.cs" />
+	<Compile Include="ForumWebViewPage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

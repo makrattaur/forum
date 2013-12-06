@@ -1,5 +1,4 @@
-﻿@model Forum.ViewModels.BaseViewModel
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,12 +13,12 @@
     <p>Username: @Model.Username</p>
     *@
 
-    @if (!(Model.LayoutModel.CurrentController == "User" && (Model.LayoutModel.CurrentAction == "Login" || Model.LayoutModel.CurrentAction == "Register")))
+    @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
     {
         <div>
             @if(Request.IsAuthenticated)
             {
-                @:Logged in as @(Model.LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
+                @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
             }
             else
             {
