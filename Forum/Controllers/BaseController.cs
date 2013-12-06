@@ -19,6 +19,9 @@ namespace Forum.Controllers
 
             if (context.Request.IsAuthenticated)
                 lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == context.User.Identity.Name);
+
+            lvm.CurrentController = context.Request.RequestContext.RouteData.GetRequiredString("controller");
+            lvm.CurrentAction = context.Request.RequestContext.RouteData.GetRequiredString("action");
         }
 
         private void InitLayoutViewModel(LayoutViewModel lvm)
@@ -74,9 +77,6 @@ namespace Forum.Controllers
                     if (baseViewModel != null)
                     {
                         InitBaseViewModel(baseViewModel);
-
-                        baseViewModel.LayoutModel.CurrentAction = filterContext.ActionDescriptor.ActionName;
-                        baseViewModel.LayoutModel.CurrentController = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                     }
                 }
             }
