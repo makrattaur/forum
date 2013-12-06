@@ -1,0 +1,19 @@
+﻿@model Database.Group
+@{
+    ViewBag.Title = "Create Group";
+}
+
+<h2>Create group</h2>
+
+@using(Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id);
+
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name) <br />
+    
+    <input type="submit" value="Create" />
+}
+
+@Html.ActionLink("Back to groups", "Groups")

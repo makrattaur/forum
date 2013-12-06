@@ -123,5 +123,27 @@ namespace Forum.Controllers
 
             return RedirectToAction("Group", new { id = group.Id });
         }
+
+        //
+        // GET: /Admin/CreateGroup
+
+        public ActionResult CreateGroup()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Admin/CreateGroup
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateGroup(Database.Group group)
+        {
+            group.IsSystem = false;
+            db.Group.InsertOnSubmit(group);
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = group.Id });
+        }
     }
 }
