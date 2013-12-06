@@ -1,4 +1,4 @@
-﻿@model Forum.Models.EditGroupModel
+﻿@model Forum.Models.EditGroupPermissionsModel
 @{
     ViewBag.Title = "Group Permissions";
 }
@@ -19,18 +19,6 @@
     }
     
     <input type="submit" value="Update Permissions" />
-}
-
-<h3>Name</h3>
-@using(Html.BeginForm("EditGroupName", "Admin"))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.GroupId);
-
-    @Html.LabelFor(m => m.NewName)
-    @Html.TextBoxFor(m => m.NewName) <br />
-    
-    <input type="submit" value="Update Name" />
 }
 
 @Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })

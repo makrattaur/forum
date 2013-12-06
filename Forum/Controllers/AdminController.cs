@@ -42,11 +42,11 @@ namespace Forum.Controllers
         }
 
         //
-        // GET: /Admin/EditGroup
+        // GET: /Admin/EditGroupPermissions
 
-        public ActionResult EditGroup(int id)
+        public ActionResult EditGroupPermissions(int id)
         {
-            Models.EditGroupModel model = new Models.EditGroupModel() { GroupId = id };
+            Models.EditGroupPermissionsModel model = new Models.EditGroupPermissionsModel() { GroupId = id };
             model.Group = db.Group.SingleOrDefault(g => g.Id == id);
 
             foreach (var flagName in Enum.GetNames(typeof(Database.Permissions)))
@@ -69,7 +69,7 @@ namespace Forum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditGroupPermissions(Forum.Models.EditGroupModel model)
+        public ActionResult EditGroupPermissions(Forum.Models.EditGroupPermissionsModel model)
         {
             model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
@@ -91,11 +91,22 @@ namespace Forum.Controllers
         }
 
         //
+        // GET: /Admin/EditGroupName
+
+        public ActionResult EditGroupName(int id)
+        {
+            Models.EditGroupNameModel model = new Models.EditGroupNameModel() { GroupId = id };
+            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
+
+            return View(model);
+        }
+
+        //
         // POST: /Admin/EditGroupName
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditGroupName(Forum.Models.EditGroupModel model)
+        public ActionResult EditGroupName(Forum.Models.EditGroupNameModel model)
         {
             model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
 

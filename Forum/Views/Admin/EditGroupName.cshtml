@@ -1,0 +1,20 @@
+﻿@model Forum.Models.EditGroupNameModel
+@{
+    ViewBag.Title = "Group Name";
+}
+
+<h2>Editing group @Model.Group.Name</h2>
+
+<h3>Name</h3>
+@using(Html.BeginForm("EditGroupName", "Admin"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GroupId);
+
+    @Html.LabelFor(m => m.NewName)
+    @Html.TextBoxFor(m => m.NewName) <br />
+    
+    <input type="submit" value="Update Name" />
+}
+
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })
