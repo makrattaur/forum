@@ -1,4 +1,4 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<IEnumerable<Database.Category>>
+﻿@model IEnumerable<Database.Category>
 @{
     ViewBag.Title = "Index";
 }
@@ -6,7 +6,7 @@
 <h2>Index</h2>
 
 <ul>
-@foreach (var category in Model.InnerModel.OrderBy(cat => cat.Order))
+@foreach (var category in Model.OrderBy(cat => cat.Order))
 {
     <li>@category.Name
         <ul>

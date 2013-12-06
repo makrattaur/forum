@@ -13,12 +13,20 @@ namespace Forum.Controllers
     {
         protected ForumDataContext db = new ForumDataContext();
 
-        private void InitLayoutViewModel(LayoutViewModel lvm)
+        public static void InitLayoutViewModel(HttpContextBase context, ForumDataContext db, LayoutViewModel lvm)
         {
             lvm.Username = "foobar";
 
-            if (Request.IsAuthenticated)
-                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == User.Identity.Name);
+            if (context.Request.IsAuthenticated)
+                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == context.User.Identity.Name);
+
+            lvm.CurrentController = context.Request.RequestContext.RouteData.GetRequiredString("controller");
+            lvm.CurrentAction = context.Request.RequestContext.RouteData.GetRequiredString("action");
+        }
+
+        private void InitLayoutViewModel(LayoutViewModel lvm)
+        {
+            InitLayoutViewModel(HttpContext, db, lvm);
         }
 
 
@@ -69,27 +77,9 @@ namespace Forum.Controllers
                     if (baseViewModel != null)
                     {
                         InitBaseViewModel(baseViewModel);
-
-                        baseViewModel.LayoutModel.CurrentAction = filterContext.ActionDescriptor.ActionName;
-                        baseViewModel.LayoutModel.CurrentController = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                     }
                 }
             }
-        }
-
-        protected ViewResult TypedView()
-        {
-            return View(new BaseViewModel());
-        }
-
-        protected ViewResult TypedView<T>()
-        {
-            return View(new ViewModelWrapper<T>(default(T)));
-        }
-
-        protected ViewResult TypedView<T>(T model)
-        {
-            return View(new ViewModelWrapper<T>(model));
         }
     }
 }

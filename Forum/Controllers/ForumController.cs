@@ -16,7 +16,7 @@ namespace Forum.Controllers
 
         public ActionResult Index()
         {
-            return TypedView<IEnumerable<Category>>(db.Category);
+            return View((IEnumerable<Category>)db.Category);
         }
 
     }

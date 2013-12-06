@@ -14,7 +14,7 @@ namespace Forum.Controllers
 
         public ActionResult Index()
         {
-            return TypedView();
+            return View();
         }
 
         //
@@ -22,7 +22,7 @@ namespace Forum.Controllers
 
         public ActionResult Users()
         {
-            return TypedView<IEnumerable<Database.User>>(db.User);
+            return View((IEnumerable<Database.User>)db.User);
         }
 
         //
@@ -30,7 +30,7 @@ namespace Forum.Controllers
 
         public ActionResult Groups()
         {
-            return TypedView<IEnumerable<Database.Group>>(db.Group);
+            return View((IEnumerable<Database.Group>)db.Group);
         }
 
         //
@@ -38,7 +38,7 @@ namespace Forum.Controllers
 
         public ActionResult Group(int id)
         {
-            return TypedView(db.Group.SingleOrDefault(g => g.Id == id));
+            return View(db.Group.SingleOrDefault(g => g.Id == id));
         }
 
         //
@@ -61,7 +61,7 @@ namespace Forum.Controllers
                 model.Permissions.Add(flagName, ((Database.Permissions)model.Group.Permissions & flagValue) != 0);
             }
 
-            return TypedView(model);
+            return View(model);
         }
 
         //
@@ -69,13 +69,13 @@ namespace Forum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditGroupPermissions(Forum.ViewModels.ViewModelWrapper<Forum.Models.EditGroupModel> model)
+        public ActionResult EditGroupPermissions(Forum.Models.EditGroupModel model)
         {
-            model.InnerModel.Group = db.Group.SingleOrDefault(g => g.Id == model.InnerModel.GroupId);
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
             Database.Permissions newPermissions = 0;
 
-            foreach (var pair in model.InnerModel.Permissions)
+            foreach (var pair in model.Permissions)
             {
                 Database.Permissions currentPermission;
                 if (Enum.TryParse(pair.Key, out currentPermission))
@@ -83,7 +83,7 @@ namespace Forum.Controllers
                         newPermissions |= currentPermission;
             }
 
-            Database.Group group = model.InnerModel.Group;
+            Database.Group group = model.Group;
             group.Permissions = (int)newPermissions;
             db.SubmitChanges();
 
@@ -95,18 +95,18 @@ namespace Forum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditGroupName(Forum.ViewModels.ViewModelWrapper<Forum.Models.EditGroupModel> model)
+        public ActionResult EditGroupName(Forum.Models.EditGroupModel model)
         {
-            model.InnerModel.Group = db.Group.SingleOrDefault(g => g.Id == model.InnerModel.GroupId);
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
-            Database.Group group = model.InnerModel.Group;
+            Database.Group group = model.Group;
 
             // TODO: Invalid when system group
             // TODO: Invalid when empty name
 
             if (!group.IsSystem)
             {
-                group.Name = model.InnerModel.NewName;
+                group.Name = model.NewName;
                 db.SubmitChanges();
             }
 

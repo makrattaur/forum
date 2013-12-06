@@ -1,21 +1,21 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.EditGroupModel>
+﻿@model Forum.Models.EditGroupModel
 @{
     ViewBag.Title = "Group Permissions";
 }
 
-<h2>Editing group @Model.InnerModel.Group.Name</h2>
+<h2>Editing group @Model.Group.Name</h2>
 
 <h3>Permissions</h3>
 
 @using(Html.BeginForm("EditGroupPermissions", "Admin"))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.InnerModel.GroupId);
+    @Html.HiddenFor(m => m.GroupId);
 
-    foreach (var key in Model.InnerModel.Permissions.Keys)
+    foreach (var key in Model.Permissions.Keys)
     {
-        @Html.CheckBoxFor(m => m.InnerModel.Permissions[key])
-        @Html.LabelFor(m => m.InnerModel.Permissions[key], key) <br />
+        @Html.CheckBoxFor(m => m.Permissions[key])
+        @Html.LabelFor(m => m.Permissions[key], key) <br />
     }
     
     <input type="submit" value="Update Permissions" />
@@ -25,12 +25,12 @@
 @using(Html.BeginForm("EditGroupName", "Admin"))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.InnerModel.GroupId);
+    @Html.HiddenFor(m => m.GroupId);
 
-    @Html.LabelFor(m => m.InnerModel.NewName)
-    @Html.TextBoxFor(m => m.InnerModel.NewName) <br />
+    @Html.LabelFor(m => m.NewName)
+    @Html.TextBoxFor(m => m.NewName) <br />
     
     <input type="submit" value="Update Name" />
 }
 
-@Html.ActionLink("Back to group", "Group", new { id = Model.InnerModel.Group.Id })
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })

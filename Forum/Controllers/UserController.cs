@@ -39,7 +39,7 @@ namespace Forum.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            return TypedView(new LoginModel());
+            return View(new LoginModel());
         }
 
         //
@@ -48,23 +48,23 @@ namespace Forum.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(ViewModels.ViewModelWrapper<Models.LoginModel> model, string ReturnUrl)
+        public ActionResult Login(Models.LoginModel model, string ReturnUrl)
         {
-            Database.User user = db.User.SingleOrDefault(u => u.Name == model.InnerModel.User.Name);
+            Database.User user = db.User.SingleOrDefault(u => u.Name == model.User.Name);
             if (user == null)
             {
-                model.InnerModel.Error = "Invalid login information.";
+                model.Error = "Invalid login information.";
                 return View(model);
             }
 
-            string hash = HashPassword(model.InnerModel.Password);
+            string hash = HashPassword(model.Password);
             if(user.PasswordHash != hash)
             {
-                model.InnerModel.Error = "Invalid login information.";
+                model.Error = "Invalid login information.";
                 return View(model);
             }
 
-            FormsAuthentication.SetAuthCookie(model.InnerModel.User.Name, model.InnerModel.KeepConnected);
+            FormsAuthentication.SetAuthCookie(model.User.Name, model.KeepConnected);
             //GetUserRoles(HttpContext);
 
             if(string.IsNullOrEmpty(ReturnUrl))
@@ -111,7 +111,7 @@ namespace Forum.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return TypedView(new Models.RegisterModel());
+            return View(new Models.RegisterModel());
         }
 
         //
@@ -120,42 +120,42 @@ namespace Forum.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Register(Forum.ViewModels.ViewModelWrapper<Forum.Models.RegisterModel> model)
+        public ActionResult Register(Forum.Models.RegisterModel model)
         {
-            if (string.IsNullOrEmpty(model.InnerModel.User.Name))
+            if (string.IsNullOrEmpty(model.User.Name))
             {
-                model.InnerModel.Error = "The username cannot be empty.";
+                model.Error = "The username cannot be empty.";
                 return View(model);
             }
 
-            if (string.IsNullOrEmpty(model.InnerModel.User.Email))
+            if (string.IsNullOrEmpty(model.User.Email))
             {
-                model.InnerModel.Error = "The email address cannot be empty.";
+                model.Error = "The email address cannot be empty.";
                 return View(model);
             }
 
-            if (db.User.Any(u => u.Name == model.InnerModel.User.Name))
+            if (db.User.Any(u => u.Name == model.User.Name))
             {
-                model.InnerModel.Error = "The username is alrady taken.";
+                model.Error = "The username is alrady taken.";
                 return View(model);
             }
 
-            if (model.InnerModel.Password != model.InnerModel.PasswordConfirmation)
+            if (model.Password != model.PasswordConfirmation)
             {
-                model.InnerModel.Error = "The passwords do not match.";
+                model.Error = "The passwords do not match.";
                 return View(model);
             }
 
-            Database.User newUser = model.InnerModel.User;
-            newUser.PasswordHash = HashPassword(model.InnerModel.Password);
+            Database.User newUser = model.User;
+            newUser.PasswordHash = HashPassword(model.Password);
             newUser.JoinTime = DateTime.Now;
 
             Database.Group userGroup = db.Group.SingleOrDefault(g => g.Name == "Users" && g.IsSystem);
             db.UserGroup.InsertOnSubmit(new Database.UserGroup() { Group = userGroup, User = newUser });
 
-            db.User.InsertOnSubmit(model.InnerModel.User);
+            db.User.InsertOnSubmit(model.User);
             db.SubmitChanges();
-            FormsAuthentication.SetAuthCookie(model.InnerModel.User.Name, true);
+            FormsAuthentication.SetAuthCookie(model.User.Name, true);
 
             return RedirectToAction("Index", "Forum");
         }

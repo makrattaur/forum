@@ -1,21 +1,21 @@
-﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.ThreadReplyModel>
+﻿@model Forum.Models.ThreadReplyModel
 @{
     ViewBag.Title = "Reply";
 }
 
-<h2>Replying to thread @Model.InnerModel.Thread.Title</h2>
+<h2>Replying to thread @Model.Thread.Title</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.InnerModel.ThreadId)
+    @Html.HiddenFor(m => m.ThreadId)
     
     <div>
-        @Html.LabelFor(m => m.InnerModel.Post.Content) <br />
-        @Html.TextAreaFor(m => m.InnerModel.Post.Content)
+        @Html.LabelFor(m => m.Post.Content) <br />
+        @Html.TextAreaFor(m => m.Post.Content)
     </div>
     
     <input type="submit" value="Reply to post" />
 }
 
-@Html.ActionLink("Back to thread", "Show", "Thread", new { id = Model.InnerModel.Thread.Id }, null)
+@Html.ActionLink("Back to thread", "Show", "Thread", new { id = Model.Thread.Id }, null)
