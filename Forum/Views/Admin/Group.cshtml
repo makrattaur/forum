@@ -6,7 +6,8 @@
 <h2>Information on group @Model.Name</h2>
 
 @Html.ActionLink("Edit permissions", "EditGroupPermissions", new { id = Model.Id }) <br />
-@Html.ActionLink("Edit name", "EditGroupName", new { id = Model.Id })
+@Html.ActionLink("Edit name", "EditGroupName", new { id = Model.Id }) <br />
+@Html.ActionLink("Add member", "AddGroupMember", new { id = Model.Id })
 <h3>Members</h3>
 <ul>
     @foreach (var user in Model.UserGroup.Select(ug => ug.User))

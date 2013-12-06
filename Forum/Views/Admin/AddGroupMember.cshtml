@@ -1,0 +1,22 @@
+﻿@model Forum.Models.AddGroupMemberModel
+@{
+    ViewBag.Title = "Add Group Member";
+}
+
+<h2>Add Group Member</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GroupId)
+    
+    @Html.LabelFor(m => m.UserId)
+    @Html.DropDownListFor(m => m.UserId,
+        Model.Users.Where(u => !Model.Group.UserGroup.Any(ug => ug.UserId == u.Id))
+        .Select(u => new SelectListItem() { Text = u.Name, Value = u.Id.ToString() })
+    )
+
+    <input type="submit" value="Add member" />
+}
+
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })

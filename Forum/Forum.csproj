@@ -134,6 +134,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddGroupMemberModel.cs" />
     <Compile Include="Models\EditGroupModel.cs" />
     <Compile Include="Models\EditGroupNameModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -246,6 +247,7 @@
     <Content Include="Views\Admin\EditGroupPermissions.cshtml" />
     <Content Include="Views\Admin\EditGroupName.cshtml" />
     <Content Include="Views\Admin\CreateGroup.cshtml" />
+    <Content Include="Views\Admin\AddGroupMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

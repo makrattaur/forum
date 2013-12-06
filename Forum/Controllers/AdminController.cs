@@ -145,5 +145,34 @@ namespace Forum.Controllers
 
             return RedirectToAction("Group", new { id = group.Id });
         }
+
+        //
+        // GET: /Admin/AddGroupMember
+
+        public ActionResult AddGroupMember(int id)
+        {
+            var model = new Models.AddGroupMemberModel();
+
+            model.GroupId = id;
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Users = db.User;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Admin/AddGroupMember
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddGroupMember(Models.AddGroupMemberModel model)
+        {
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+
+            db.UserGroup.InsertOnSubmit(new Database.UserGroup() { GroupId = model.GroupId, UserId = model.UserId });
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = model.GroupId });
+        }
     }
 }

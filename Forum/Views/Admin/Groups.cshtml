@@ -8,7 +8,12 @@
 <ul>
     @foreach (var group in Model)
     {
-        <li>@Html.ActionLink(group.Name, "Group", new { id = group.Id }, null) @Html.ActionLink("Edit Permissions", "EditGroupPermissions", new { id = group.Id }, null) @Html.ActionLink("Edit Name", "EditGroupName", new { id = group.Id }, null)</li>
+        <li>
+            @Html.ActionLink(group.Name, "Group", new { id = group.Id }, null)
+            @Html.ActionLink("Edit Permissions", "EditGroupPermissions", new { id = group.Id }, null)
+            @Html.ActionLink("Edit Name", "EditGroupName", new { id = group.Id }, null)
+            @Html.ActionLink("Add Member", "AddGroupMember", new { id = group.Id }, null)
+        </li>
     }
 </ul>
 
