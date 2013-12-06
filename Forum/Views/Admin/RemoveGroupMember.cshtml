@@ -1,0 +1,19 @@
+﻿@model Forum.Models.AddGroupMemberModel
+@{
+    ViewBag.Title = "Remove Group Member";
+}
+
+<h2>Remove Group Member</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GroupId)
+    
+    @Html.LabelFor(m => m.UserId)
+    @Html.DropDownListFor(m => m.UserId, Model.Users.Select(u => new SelectListItem() { Text = u.Name, Value = u.Id.ToString() }))
+
+    <input type="submit" value="Remove member" />
+}
+
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })

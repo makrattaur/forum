@@ -174,5 +174,35 @@ namespace Forum.Controllers
 
             return RedirectToAction("Group", new { id = model.GroupId });
         }
+
+        //
+        // GET: /Admin/RemoveGroupMember
+
+        public ActionResult RemoveGroupMember(int id)
+        {
+            var model = new Models.AddGroupMemberModel();
+
+            model.GroupId = id;
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Users = model.Group.UserGroup.Select(ug => ug.User);
+
+            return View(model);
+        }
+
+        //
+        // POST: /Admin/RemoveGroupMember
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveGroupMember(Models.AddGroupMemberModel model)
+        {
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+
+            Database.UserGroup userGroup = model.Group.UserGroup.Single(ug => ug.UserId == model.UserId);
+            db.UserGroup.DeleteOnSubmit(userGroup);
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = model.GroupId });
+        }
     }
 }
