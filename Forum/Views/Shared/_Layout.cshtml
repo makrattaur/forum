@@ -20,6 +20,11 @@
             @if(Request.IsAuthenticated)
             {
                 @:Logged in as @(Model.LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
+
+                if (User.IsInRole("Administrators"))
+                {
+                    @Html.ActionLink("Admin CP", "Index", "Admin") 
+                }
             }
             else
             {
