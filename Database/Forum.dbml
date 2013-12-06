@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Forum" Class="ForumDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;Initial Catalog=Forum;Integrated Security=True" SettingsObjectName="Database.Properties.Settings" SettingsPropertyName="ForumConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Category" Member="Category">
+    <Type Name="Category">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Order]" Member="Order" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="Category_Forum" Member="Forum" ThisKey="Id" OtherKey="CategoryId" Type="Forum" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserGroup" Member="UserGroup">
+    <Type Name="UserGroup">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="User_UserGroup" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="Group_UserGroup" Member="Group" ThisKey="GroupId" OtherKey="Id" Type="Group" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Forum" Member="Forum">
+    <Type Name="Forum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Order]" Member="Order" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="Forum_Thread" Member="Thread" ThisKey="Id" OtherKey="ForumId" Type="Thread" />
+      <Association Name="Forum_PerForumGroupPermissions" Member="PerForumGroupPermissions" ThisKey="Id" OtherKey="ForumId" Type="PerForumGroupPermissions" />
+      <Association Name="Forum_PerForumUserPermissions" Member="PerForumUserPermissions" ThisKey="Id" OtherKey="ForumId" Type="PerForumUserPermissions" />
+      <Association Name="Category_Forum" Member="Category" ThisKey="CategoryId" OtherKey="Id" Type="Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Post" Member="Post">
+    <Type Name="Post">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ThreadId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AuthorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PostTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="Thread_Post" Member="Thread" ThisKey="ThreadId" OtherKey="Id" Type="Thread" IsForeignKey="true" />
+      <Association Name="User_Post" Member="User" ThisKey="AuthorId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Thread" Member="Thread">
+    <Type Name="Thread">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ForumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="AuthorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TimesViewed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Pinned" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Association Name="Thread_Post" Member="Post" ThisKey="Id" OtherKey="ThreadId" Type="Post" />
+      <Association Name="Forum_Thread" Member="Forum" ThisKey="ForumId" OtherKey="Id" Type="Forum" IsForeignKey="true" />
+      <Association Name="User_Thread" Member="User" ThisKey="AuthorId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="User">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="JoinTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastVisit" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Avatar" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="User_UserGroup" Member="UserGroup" ThisKey="Id" OtherKey="UserId" Type="UserGroup" />
+      <Association Name="User_Post" Member="Post" ThisKey="Id" OtherKey="AuthorId" Type="Post" />
+      <Association Name="User_Thread" Member="Thread" ThisKey="Id" OtherKey="AuthorId" Type="Thread" />
+      <Association Name="User_PerForumUserPermissions" Member="PerForumUserPermissions" ThisKey="Id" OtherKey="UserId" Type="PerForumUserPermissions" />
+      <Association Name="User_UserPermissions" Member="UserPermissions" ThisKey="Id" OtherKey="UserId" Type="UserPermissions" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PerForumGroupPermissions" Member="PerForumGroupPermissions">
+    <Type Name="PerForumGroupPermissions">
+      <Column Name="ForumId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Permissions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Forum_PerForumGroupPermissions" Member="Forum" ThisKey="ForumId" OtherKey="Id" Type="Forum" IsForeignKey="true" />
+      <Association Name="Group_PerForumGroupPermissions" Member="Group" ThisKey="GroupId" OtherKey="Id" Type="Group" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PerForumUserPermissions" Member="PerForumUserPermissions">
+    <Type Name="PerForumUserPermissions">
+      <Column Name="ForumId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Permissions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Forum_PerForumUserPermissions" Member="Forum" ThisKey="ForumId" OtherKey="Id" Type="Forum" IsForeignKey="true" />
+      <Association Name="User_PerForumUserPermissions" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Group">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IsSystem" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Permissions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Group_UserGroup" Member="UserGroup" ThisKey="Id" OtherKey="GroupId" Type="UserGroup" />
+      <Association Name="Group_PerForumGroupPermissions" Member="PerForumGroupPermissions" ThisKey="Id" OtherKey="GroupId" Type="PerForumGroupPermissions" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserPermissions" Member="UserPermissions">
+    <Type Name="UserPermissions">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Permissions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserPermissions" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

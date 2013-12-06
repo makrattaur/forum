@@ -1,0 +1,20 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<IEnumerable<Database.Category>>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<ul>
+@foreach (var category in Model.InnerModel.OrderBy(cat => cat.Order))
+{
+    <li>@category.Name
+        <ul>
+            @foreach (var forum in category.Forum.OrderBy(f => f.Order))
+            {
+                <li>@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</li>
+            }
+        </ul>
+    </li>
+}
+</ul>

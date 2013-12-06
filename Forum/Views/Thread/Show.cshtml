@@ -1,0 +1,24 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<Database.Thread>
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+<p>
+    Title: @Model.InnerModel.Title<br />
+    Author: @Model.InnerModel.User.Name
+</p>
+
+@foreach (var post in Model.InnerModel.Post)
+{
+    <div class="reply">
+        <h4>Author: @post.User.Name</h4>
+        <p>@post.Content</p>
+    </div>
+}
+
+@if(Request.IsAuthenticated)
+{
+    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.InnerModel.Id }, null) <br />
+}
+@Html.ActionLink("Back to threads", "Index", "Thread", new { id = Model.InnerModel.ForumId }, null)

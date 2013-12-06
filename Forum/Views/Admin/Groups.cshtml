@@ -1,0 +1,14 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<IEnumerable<Database.Group>>
+@{
+    ViewBag.Title = "Groups";
+}
+
+<h2>Groups</h2>
+<ul>
+    @foreach (var group in Model.InnerModel)
+    {
+        <li>@Html.ActionLink(group.Name, "Group", new { id = group.Id }, null) @Html.ActionLink("Edit", "EditGroup", new { id = group.Id }, null)</li>
+    }
+</ul>
+
+@Html.ActionLink("Back to control panel", "Index")

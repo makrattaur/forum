@@ -1,0 +1,36 @@
+﻿@model Forum.ViewModels.BaseViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @*
+    <h1>Global section</h1>
+    <p>Username: @Model.Username</p>
+    *@
+
+    @if (!(Model.LayoutModel.CurrentController == "User" && (Model.LayoutModel.CurrentAction == "Login" || Model.LayoutModel.CurrentAction == "Register")))
+    {
+        <div>
+            @if(Request.IsAuthenticated)
+            {
+                @:Logged in as @(Model.LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
+            }
+            else
+            {
+                @:You are not logged in. @Html.ActionLink("Login", "Login", "User") or @Html.ActionLink("register", "Register", "User")
+            }
+        </div>
+    }
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

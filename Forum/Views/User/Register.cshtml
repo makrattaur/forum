@@ -1,0 +1,38 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.RegisterModel>
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Register</h2>
+
+@if (Model.InnerModel.Error != null)
+{
+    <div style="color: #d80000">@Model.InnerModel.Error</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+    <div>
+        @Html.LabelFor(m => m.InnerModel.User.Name)
+        @Html.TextBoxFor(m => m.InnerModel.User.Name)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.InnerModel.User.Email)
+        @Html.TextBoxFor(m => m.InnerModel.User.Email)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.InnerModel.Password, "Password")
+        @Html.PasswordFor(m => m.InnerModel.Password)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.InnerModel.PasswordConfirmation, "Confirm Password")
+        @Html.PasswordFor(m => m.InnerModel.PasswordConfirmation)
+    </div>
+    
+    <input type="submit" value="Register" />
+}

@@ -1,0 +1,12 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.TestModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    foo: @Model.InnerModel.foo<br />
+    bar: @Model.InnerModel.bar
+</p>
+

@@ -1,0 +1,37 @@
+﻿@model Forum.ViewModels.ViewModelWrapper<Forum.Models.LoginModel>
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@if (Model.InnerModel.Error != null)
+{
+    <div style="color: #d80000">@Model.InnerModel.Error</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        @Html.LabelFor(m => m.InnerModel.User.Name)
+        @Html.TextBoxFor(m => m.InnerModel.User.Name)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.InnerModel.Password)
+        @Html.PasswordFor(m => m.InnerModel.Password)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.InnerModel.KeepConnected)
+        @Html.CheckBoxFor(m => m.InnerModel.KeepConnected)
+    </div>
+    
+    <input type="submit" value="Login" />
+}
+
+<p>
+    Don't have a account ? @(Html.ActionLink("Register", "Register")).
+</p>
