@@ -49,17 +49,7 @@ namespace Forum.Controllers
             Models.EditGroupPermissionsModel model = new Models.EditGroupPermissionsModel() { GroupId = id };
             model.Group = db.Group.SingleOrDefault(g => g.Id == id);
 
-            foreach (var flagName in Enum.GetNames(typeof(Database.Permissions)))
-            {
-                var flagValue = (Database.Permissions)Enum.Parse(typeof(Database.Permissions), flagName);
-
-                if ((flagValue & flagValue - 1) != 0)
-                {
-                    continue;
-                }
-
-                model.Permissions.Add(flagName, ((Database.Permissions)model.Group.Permissions & flagValue) != 0);
-            }
+            WritePermissionsToDictionary((Database.Permissions)model.Group.Permissions, model.Permissions);
 
             return View(model);
         }
@@ -73,15 +63,7 @@ namespace Forum.Controllers
         {
             model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
-            Database.Permissions newPermissions = 0;
-
-            foreach (var pair in model.Permissions)
-            {
-                Database.Permissions currentPermission;
-                if (Enum.TryParse(pair.Key, out currentPermission))
-                    if (pair.Value)
-                        newPermissions |= currentPermission;
-            }
+            Database.Permissions newPermissions = GetPermissionsFromDictionary(model.Permissions);
 
             Database.Group group = model.Group;
             group.Permissions = (int)newPermissions;
@@ -203,6 +185,36 @@ namespace Forum.Controllers
             db.SubmitChanges();
 
             return RedirectToAction("Group", new { id = model.GroupId });
+        }
+
+        private void WritePermissionsToDictionary(Database.Permissions perms, IDictionary<string, bool> dict)
+        {
+            foreach (var flagName in Enum.GetNames(typeof(Database.Permissions)))
+            {
+                var flagValue = (Database.Permissions)Enum.Parse(typeof(Database.Permissions), flagName);
+
+                if ((flagValue & flagValue - 1) != 0)
+                {
+                    continue;
+                }
+
+                dict.Add(flagName, (perms & flagValue) != 0);
+            }
+        }
+
+        private Database.Permissions GetPermissionsFromDictionary(IDictionary<string, bool> dict)
+        {
+            Database.Permissions newPermissions = 0;
+
+            foreach (var pair in dict)
+            {
+                Database.Permissions currentPermission;
+                if (Enum.TryParse(pair.Key, out currentPermission))
+                    if (pair.Value)
+                        newPermissions |= currentPermission;
+            }
+
+            return newPermissions;
         }
     }
 }
