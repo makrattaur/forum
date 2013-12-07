@@ -135,7 +135,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddGroupMemberModel.cs" />
-    <Compile Include="Models\EditGroupModel.cs" />
+    <Compile Include="Models\EditGroupPermissionsModel.cs" />
     <Compile Include="Models\EditGroupNameModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
