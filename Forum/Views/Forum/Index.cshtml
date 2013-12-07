@@ -3,18 +3,27 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Forum Index</h2>
 
-<ul>
 @foreach (var category in Model.Categories.OrderBy(cat => cat.Order))
 {
-    <li>@category.Name
-        <ul>
+    <div class="panel panel-default category-list">
+        <table class="table">
+            <tr>
+                <th>@category.Name</th>
+                <th>Threads</th>
+                <th>Posts</th>
+                <th>Last Post</th>
+            </tr>
             @foreach (var forum in category.Forum.OrderBy(f => f.Order).Where(f => Model.PermissionManager.CanSeeForum(f)))
             {
-                <li>@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</li>
+                <tr>
+                    <td>@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</td>
+                    <td>@forum.Thread.Count</td>
+                    <td>@forum.Thread.SelectMany(t => t.Post).Count()</td>
+                    <td> </td>
+                </tr>
             }
-        </ul>
-    </li>
+        </table>
+    </div>
 }
-</ul>
