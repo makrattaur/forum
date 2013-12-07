@@ -16,7 +16,10 @@ namespace Forum.Controllers
 
         public ActionResult Index()
         {
-            return View((IEnumerable<Category>)db.Category);
+            return View(new ViewModels.ForumViewModel() {
+                Categories = db.Category,
+                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name))
+            });
         }
 
     }

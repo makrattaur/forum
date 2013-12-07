@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Database.Category>
+﻿@model Forum.ViewModels.ForumViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -6,11 +6,11 @@
 <h2>Index</h2>
 
 <ul>
-@foreach (var category in Model.OrderBy(cat => cat.Order))
+@foreach (var category in Model.Categories.OrderBy(cat => cat.Order))
 {
     <li>@category.Name
         <ul>
-            @foreach (var forum in category.Forum.OrderBy(f => f.Order))
+            @foreach (var forum in category.Forum.OrderBy(f => f.Order).Where(f => Model.PermissionManager.CanSeeForum(f)))
             {
                 <li>@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</li>
             }
