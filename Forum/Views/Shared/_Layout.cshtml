@@ -14,26 +14,28 @@
     <p>Username: @Model.Username</p>
     *@
 
-    @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
-    {
-        <div>
-            @if(Request.IsAuthenticated)
-            {
-                @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
-
-                if (User.IsInRole("Administrators"))
+    <div class="container">
+        @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
+        {
+            <div>
+                @if(Request.IsAuthenticated)
                 {
-                    @Html.ActionLink("Admin CP", "Index", "Admin") 
-                }
-            }
-            else
-            {
-                @:You are not logged in. @Html.ActionLink("Login", "Login", "User") or @Html.ActionLink("register", "Register", "User")
-            }
-        </div>
-    }
+                    @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
 
-    @RenderBody()
+                    if (User.IsInRole("Administrators"))
+                    {
+                        @Html.ActionLink("Admin CP", "Index", "Admin") 
+                    }
+                }
+                else
+                {
+                    @:You are not logged in. @Html.ActionLink("Login", "Login", "User") or @Html.ActionLink("register", "Register", "User")
+                }
+            </div>
+        }
+
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
