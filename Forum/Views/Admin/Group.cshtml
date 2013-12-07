@@ -35,4 +35,34 @@
     }
 </ul>
 
+<h3>Per-forum permissions</h3>
+@Html.ActionLink("Add new per-forum permissions", "AddPerForumGroupPermissions", new { id = Model.Id })
+<ul>
+    @foreach (var perForumPermission in Model.PerForumGroupPermissions)
+    {
+        <li>
+            @perForumPermission.Forum.Name
+            @Html.ActionLink("Edit permissions", "EditPerForumGroupPermissions", new { id = Model.Id, forumId = perForumPermission.ForumId })
+            @Html.ActionLink("Delete", "DeletePerForumGroupPermissions", new { id = Model.Id, forumId = perForumPermission.ForumId })
+            <ul>
+                @{
+                    var perForumPerms = (Database.Permissions)perForumPermission.Permissions;
+                    foreach (var value in (Database.Permissions[])Enum.GetValues(typeof(Database.Permissions)))
+                    {
+                        if ((value & value - 1) != 0)
+                        {
+                            continue;
+                        }
+
+                        if ((perForumPerms & value) != 0)
+                        {
+                            <li>@value.ToString()</li>
+                        }
+                    }
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
 @Html.ActionLink("Back to groups", "Groups")

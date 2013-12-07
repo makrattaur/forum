@@ -187,6 +187,83 @@ namespace Forum.Controllers
             return RedirectToAction("Group", new { id = model.GroupId });
         }
 
+        //
+        // GET: /Admin/AddPerForumGroupPermissions
+
+        public ActionResult AddPerForumGroupPermissions(int id)
+        {
+            Models.AddPerForumGroupPermissionModel model = new Models.AddPerForumGroupPermissionModel() { GroupId = id };
+            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
+            model.Forums = db.Forum;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Admin/AddPerForumGroupPermissions
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPerForumGroupPermissions(Forum.Models.AddPerForumGroupPermissionModel model)
+        {
+            db.PerForumGroupPermissions.InsertOnSubmit(new Database.PerForumGroupPermissions()
+            {
+                ForumId = model.ForumId,
+                GroupId = model.GroupId,
+                Permissions = 0
+            });
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = model.GroupId });
+        }
+
+        //
+        // GET: /Admin/EditPerForumGroupPermissions
+
+        public ActionResult EditPerForumGroupPermissions(int id, int forumId)
+        {
+            Models.EditPerForumGroupPermissionsModel model = new Models.EditPerForumGroupPermissionsModel() { GroupId = id, ForumId = forumId };
+            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
+            model.Forum = db.Forum.SingleOrDefault(f => f.Id == forumId);
+
+            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
+            WritePermissionsToDictionary((Database.Permissions)perForumPerm.Permissions, model.Permissions);
+
+            return View(model);
+        }
+
+        //
+        // POST: /Admin/EditPerForumGroupPermissions
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPerForumGroupPermissions(Forum.Models.EditPerForumGroupPermissionsModel model)
+        {
+            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Forum = db.Forum.SingleOrDefault(f => f.Id == model.ForumId);
+
+            Database.Permissions newPermissions = GetPermissionsFromDictionary(model.Permissions);
+
+            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == model.GroupId && pfgp.ForumId == model.ForumId);
+            perForumPerm.Permissions = (int)newPermissions;
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = model.GroupId });
+        }
+
+        //
+        // GET: /Admin/DeletePerForumGroupPermissions
+
+        public ActionResult DeletePerForumGroupPermissions(int id, int forumId)
+        {
+            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
+
+            db.PerForumGroupPermissions.DeleteOnSubmit(perForumPerm);
+            db.SubmitChanges();
+
+            return RedirectToAction("Group", new { id = id });
+        }
+
         private void WritePermissionsToDictionary(Database.Permissions perms, IDictionary<string, bool> dict)
         {
             foreach (var flagName in Enum.GetNames(typeof(Database.Permissions)))

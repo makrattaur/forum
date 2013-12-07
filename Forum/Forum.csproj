@@ -135,8 +135,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddGroupMemberModel.cs" />
+    <Compile Include="Models\AddPerForumGroupPermissionModel.cs" />
     <Compile Include="Models\EditGroupPermissionsModel.cs" />
     <Compile Include="Models\EditGroupNameModel.cs" />
+    <Compile Include="Models\EditPerForumGroupPermissionsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\TestModel.cs" />
@@ -249,6 +251,8 @@
     <Content Include="Views\Admin\CreateGroup.cshtml" />
     <Content Include="Views\Admin\AddGroupMember.cshtml" />
     <Content Include="Views\Admin\RemoveGroupMember.cshtml" />
+    <Content Include="Views\Admin\AddPerForumGroupPermissions.cshtml" />
+    <Content Include="Views\Admin\EditPerForumGroupPermissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

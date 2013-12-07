@@ -1,0 +1,23 @@
+﻿@model Forum.Models.EditPerForumGroupPermissionsModel
+@{
+    ViewBag.Title = "Edit per-forum group permissions";
+}
+
+<h2>Editing permissions of group @Model.Group.Name for forum @Model.Forum.Name</h2>
+
+@using(Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GroupId)
+    @Html.HiddenFor(m => m.ForumId)
+
+    foreach (var key in Model.Permissions.Keys)
+    {
+        @Html.CheckBoxFor(m => m.Permissions[key])
+        @Html.LabelFor(m => m.Permissions[key], key) <br />
+    }
+    
+    <input type="submit" value="Update Permissions" />
+}
+
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })

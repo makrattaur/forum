@@ -1,0 +1,23 @@
+﻿@model Forum.Models.AddPerForumGroupPermissionModel
+@{
+    ViewBag.Title = "Add per-forum group permissions";
+}
+
+<h2>Add per-forum group permissions</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GroupId)
+    
+    @Html.LabelFor(m => m.ForumId)
+    @Html.DropDownListFor(m => m.ForumId,
+        Model.Forums
+            .Where(f => !Model.Group.PerForumGroupPermissions.Any(pfgp => pfgp.ForumId == f.Id))
+            .Select(f => new SelectListItem() { Text = f.Name, Value = f.Id.ToString() })
+    )
+
+    <input type="submit" value="Add per-forum permission" />
+}
+
+@Html.ActionLink("Back to group", "Group", new { id = Model.Group.Id })
