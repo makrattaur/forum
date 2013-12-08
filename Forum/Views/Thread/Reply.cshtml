@@ -3,19 +3,25 @@
     ViewBag.Title = "Reply";
 }
 
-<h2>Replying to thread @Model.Thread.Title</h2>
+<h2>@Model.Thread.Title</h2>
+<h3>Reply to thread</h3>
+
+@if (Model.Error != null)
+{
+    <div class="text-danger">@Model.Error</div>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ThreadId)
     
-    <div>
-        @Html.LabelFor(m => m.Post.Content) <br />
-        @Html.TextAreaFor(m => m.Post.Content)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.Content, "Message: ") <br />
+        @Html.TextAreaFor(m => m.Post.Content, new { @class = "form-control", rows = "10" })
     </div>
     
-    <input type="submit" value="Reply to post" />
+    <input type="submit" class="btn btn-primary" value="Reply to post" />
 }
 
 @Html.ActionLink("Back to thread", "Show", "Thread", new { id = Model.Thread.Id }, null)
