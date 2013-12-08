@@ -7,7 +7,7 @@
 
 @if (Model.Error != null)
 {
-    <div class="text-danger">@Model.Error</div>
+    <div class="text-danger form-validation-error">@Model.Error</div>
 }
 
 @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
