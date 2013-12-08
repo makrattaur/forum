@@ -11,17 +11,7 @@ namespace Forum.Controllers
 {
     public class HomeController : BaseController
     {
-        //
-        // GET: /Home/
 
-        public ActionResult Index()
-        {
-            var model = new TestModel();
-            model.foo = 42;
-            model.bar = "foobar";
-
-            return View(model);
-        }
 
     }
 }
