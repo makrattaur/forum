@@ -38,6 +38,13 @@ namespace Forum
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap/css").Include(
+                        "~/Content/bootstrap/css/bootstrap.css",
+                        "~/Content/bootstrap/css/bootstrap-theme.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                        "~/Content/bootstrap/js/bootstrap.js"));
         }
     }
 }

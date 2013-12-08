@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -13,28 +14,44 @@
     <p>Username: @Model.Username</p>
     *@
 
-    @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
-    {
-        <div>
-            @if(Request.IsAuthenticated)
-            {
-                @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
-
-                if (User.IsInRole("Administrators"))
+    <div class="forum-header">
+        <div class="container">
+            <div class="clearfix header">
+                <h2 class="pull-left">&micro;-cosm</h2>
+                @if (Request.IsAuthenticated && User.IsInRole("Administrators"))
                 {
-                    @Html.ActionLink("Admin CP", "Index", "Admin") 
+                    <div class="pull-right">
+                        @Html.ActionLink("Admin CP", "Index", "Admin")
+                    </div>
                 }
-            }
-            else
-            {
-                @:You are not logged in. @Html.ActionLink("Login", "Login", "User") or @Html.ActionLink("register", "Register", "User")
-            }
+            </div>
+            <div class="clearfix navigation">
+                <div class="pull-left">
+                    @Html.ActionLink("Board index", "Index", "Forum")
+                </div>
+                @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
+                {
+                    <div class="pull-right">
+                        @if(Request.IsAuthenticated)
+                        {
+                            @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
+                        }
+                        else
+                        {
+                            @:You are not logged in. @Html.ActionLink("Login", "Login", "User") or @Html.ActionLink("register", "Register", "User")
+                        }
+                    </div>
+                }
+            </div>
         </div>
-    }
+    </div>
 
-    @RenderBody()
+    <div class="container">
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -3,11 +3,12 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>@Model.Forum.Name</h2>
+<h3>Create new thread</h3>
 
 @if (Model.Error != null)
 {
-    <div style="color: #d80000">@Model.Error</div>
+    <div class="text-danger form-validation-error">@Model.Error</div>
 }
 
 @using (Html.BeginForm())
@@ -15,17 +16,17 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ForumId)
 
-    <div>
-        @Html.LabelFor(m => m.Thread.Title)
-        @Html.TextBoxFor(m => m.Thread.Title)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Thread.Title, "Title: ")
+        @Html.TextBoxFor(m => m.Thread.Title, new { @class = "form-control", style = "width: 300px;" })
     </div>
     
-    <div>
-        @Html.LabelFor(m => m.Post.Content)<br />
-        @Html.TextAreaFor(m => m.Post.Content)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.Content, "Message: ")<br />
+        @Html.TextAreaFor(m => m.Post.Content, new { @class = "form-control", rows = "10" })
     </div>
     
-    <input type="submit" value="Create" />
+    <input type="submit" class="btn btn-primary" value="Create" />
 }
 
 @Html.ActionLink("Back to threads", "Index", "Thread", new { id = Model.ForumId }, null)

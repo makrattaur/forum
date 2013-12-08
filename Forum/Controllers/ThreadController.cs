@@ -82,7 +82,11 @@ namespace Forum.Controllers
         [Authorize]
         public ActionResult Create(int id)
         {
-            return View(new Models.ThreadCreationModel() { ForumId = id });
+            return View(new Models.ThreadCreationModel()
+            {
+                ForumId = id,
+                Forum = db.Forum.SingleOrDefault(f => f.Id == id)
+            });
         }
 
         //
@@ -93,6 +97,8 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Models.ThreadCreationModel model)
         {
+            model.Forum = db.Forum.SingleOrDefault(f => f.Id == model.ForumId);
+
             if (string.IsNullOrWhiteSpace(model.Thread.Title))
             {
                 model.Error = "The title cannot be empty.";
