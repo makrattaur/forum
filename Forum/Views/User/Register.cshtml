@@ -7,32 +7,44 @@
 
 @if (Model.Error != null)
 {
-    <div style="color: #d80000">@Model.Error</div>
+    <div class="text-danger">@Model.Error</div>
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
    
-    <div>
-        @Html.LabelFor(m => m.User.Name)
-        @Html.TextBoxFor(m => m.User.Name)
+    <div class="form-group">
+        @Html.LabelFor(m => m.User.Name, "User Name", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.User.Name, new { @class = "form-control" })
+        </div>
     </div>
     
-    <div>
-        @Html.LabelFor(m => m.User.Email)
-        @Html.TextBoxFor(m => m.User.Email)
+    <div class="form-group">
+        @Html.LabelFor(m => m.User.Email, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.User.Email, new { @class = "form-control" })
+        </div>
     </div>
 
-    <div>
-        @Html.LabelFor(m => m.Password, "Password")
-        @Html.PasswordFor(m => m.Password)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, "Password", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
     </div>
 
-    <div>
-        @Html.LabelFor(m => m.PasswordConfirmation, "Confirm Password")
-        @Html.PasswordFor(m => m.PasswordConfirmation)
+    <div class="form-group">
+        @Html.LabelFor(m => m.PasswordConfirmation, "Confirm Password", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.PasswordFor(m => m.PasswordConfirmation, new { @class = "form-control" })
+        </div>
     </div>
     
-    <input type="submit" value="Register" />
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-3">
+            <input type="submit" class="btn btn-primary" value="Register" />
+        </div>
+    </div>
 }
