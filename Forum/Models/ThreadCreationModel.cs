@@ -16,6 +16,7 @@ namespace Forum.Models
         }
 
         public int ForumId { get; set; }
+        public Database.Forum Forum { get; set; }
         public Thread Thread { get; set; }
         public Post Post { get; set; }
         public string Error { get; set; }
