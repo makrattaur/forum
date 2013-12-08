@@ -71,3 +71,62 @@ textarea {
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
 }
+
+.post .outer-content
+{
+	width: 100%;
+}
+.post .content
+{
+	margin-left: 140px;
+    padding-left: 10px;
+}
+.post .poster-info
+{
+	width: 140px;
+	margin-left: -100%;
+    padding-right: 15px;
+}
+.post .panel-body
+{
+    padding: 0;
+}
+.post .info
+{
+    border-bottom: 1px solid #ddd;
+}
+.post .info,
+.post .body,
+.post .footer
+{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.post .footer,
+.post .info
+{
+    padding-bottom: 5px;
+}
+.post .info,
+.post .body,
+.post .footer
+{
+    padding-top: 5px;
+}
+.post .body,
+.post .footer
+{
+    background: url("/Content/post-bg.png") repeat-y scroll 0 0 #FFFFFF;
+}
+.post .join-date,
+.post .post-count
+{
+    font-size: 12px;
+    text-align: center;
+}
+.post .poster-info,
+.post .name,
+.post .content /* wtf chrome */
+{
+    overflow: hidden;
+}
