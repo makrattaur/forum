@@ -136,3 +136,9 @@ textarea {
 {
     margin-bottom: 10px;
 }
+
+.category-list .table.table-bordered tr:first-child th,
+.thread-list .table.table-bordered tr:first-child th
+{
+    border: medium none;
+}
