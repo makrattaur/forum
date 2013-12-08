@@ -11,16 +11,7 @@ namespace Forum.Controllers
 {
     public class ForumController : BaseController
     {
-        //
-        // GET: /Forum/
 
-        public ActionResult Index()
-        {
-            return View(new ViewModels.ForumViewModel() {
-                Categories = db.Category,
-                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name))
-            });
-        }
 
     }
 }

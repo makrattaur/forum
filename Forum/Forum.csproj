@@ -247,9 +247,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Thread\Index.cshtml" />
-    <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Thread\Show.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
@@ -266,6 +264,7 @@
     <Content Include="Views\Admin\RemoveGroupMember.cshtml" />
     <Content Include="Views\Admin\AddPerForumGroupPermissions.cshtml" />
     <Content Include="Views\Admin\EditPerForumGroupPermissions.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

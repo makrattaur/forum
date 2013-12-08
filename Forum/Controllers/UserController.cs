@@ -30,7 +30,7 @@ namespace Forum.Controllers
             HttpContext.Cache.Remove("userGroups_authSess-" + Request.Cookies[FormsAuthentication.FormsCookieName].Value);
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Forum");
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -68,7 +68,7 @@ namespace Forum.Controllers
             //GetUserRoles(HttpContext);
 
             if(string.IsNullOrEmpty(ReturnUrl))
-                return RedirectToAction("Index", "Forum");
+                return RedirectToAction("Index", "Home");
             else
                 return Redirect(ReturnUrl);
         }
@@ -157,7 +157,7 @@ namespace Forum.Controllers
             db.SubmitChanges();
             FormsAuthentication.SetAuthCookie(model.User.Name, true);
 
-            return RedirectToAction("Index", "Forum");
+            return RedirectToAction("Index", "Home");
         }
 
         string HashPassword(string password)
