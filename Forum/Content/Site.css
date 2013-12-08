@@ -154,3 +154,13 @@ textarea {
     margin-top: 32px;
     margin-bottom: 10px;
 }
+
+.thread-list td.post-count,
+.thread-list td.times-viewed,
+.category-list td.thread-count,
+.category-list td.post-count
+{
+    text-align: center;
+    vertical-align: middle;
+}
+

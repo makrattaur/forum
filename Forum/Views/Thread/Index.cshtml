@@ -16,12 +16,13 @@
         @foreach (var thread in Model.Threads)
         {
             <tr>
-                <td>@Html.ActionLink(thread.Title, "Show", new { id = thread.Id }) <br />
+                <td class="title">
+                    @Html.ActionLink(thread.Title, "Show", new { id = thread.Id }) <br />
                     by @thread.User.Name on @thread.CreationTime
                 </td>
-                <td>@thread.Post.Count</td>
-                <td>@thread.TimesViewed</td>
-                <td> </td>
+                <td class="post-count">@thread.Post.Count</td>
+                <td class="times-viewed">@thread.TimesViewed</td>
+                <td class="last-post"> </td>
             </tr>
         }
         @if (Model.Threads.Count() < 1)

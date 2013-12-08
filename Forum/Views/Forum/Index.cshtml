@@ -18,10 +18,10 @@
             @foreach (var forum in category.Forum.OrderBy(f => f.Order).Where(f => Model.PermissionManager.CanSeeForum(f)))
             {
                 <tr>
-                    <td>@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</td>
-                    <td>@forum.Thread.Count</td>
-                    <td>@forum.Thread.SelectMany(t => t.Post).Count()</td>
-                    <td> </td>
+                    <td class="forum-name">@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</td>
+                    <td class="thread-count">@forum.Thread.Count</td>
+                    <td class="post-count">@forum.Thread.SelectMany(t => t.Post).Count()</td>
+                    <td class="last-post"> </td>
                 </tr>
             }
         </table>
