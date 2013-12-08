@@ -142,3 +142,15 @@ textarea {
 {
     border: medium none;
 }
+
+.forum-header
+{
+    background-color: #eee;
+    padding-bottom: 20px;
+}
+
+.forum-header h2 + div
+{
+    margin-top: 32px;
+    margin-bottom: 10px;
+}
