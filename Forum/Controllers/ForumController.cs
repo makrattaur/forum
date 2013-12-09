@@ -33,7 +33,7 @@ namespace Forum.Controllers
             return View(new ViewModels.CategoryViewModel()
             {
                 Category = category,
-                PermissionManager = new UserPermissionManager(ForumDatabase, ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name)),
+                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser),
                 IsSingle = true
             });
         }

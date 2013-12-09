@@ -12,6 +12,7 @@ namespace Forum.Controllers
     public class BaseController : Controller
     {
         protected ForumDataContext ForumDatabase = new ForumDataContext();
+        protected User CurrentForumUser;
 
         public static void InitLayoutViewModel(WebViewPage page, ForumDataContext db, LayoutViewModel lvm)
         {
@@ -61,6 +62,13 @@ namespace Forum.Controllers
         protected void SetCurrentLocation(Thread thread)
         {
             SetCurrentLocation(thread.Forum);
+        }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+            CurrentForumUser = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name);
         }
     }
 }

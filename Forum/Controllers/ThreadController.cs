@@ -66,7 +66,7 @@ namespace Forum.Controllers
             Post post = model.Post;
 
             post.PostTime = DateTime.Now;
-            post.AuthorId = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
+            post.AuthorId = CurrentForumUser.Id;
             post.Thread = thread;
 
             ForumDatabase.Post.InsertOnSubmit(post);
@@ -118,7 +118,7 @@ namespace Forum.Controllers
             Post post = model.Post;
 
             thread.CreationTime = post.PostTime = DateTime.Now;
-            thread.AuthorId = post.AuthorId = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
+            thread.AuthorId = post.AuthorId = CurrentForumUser.Id;
 
             thread.ForumId = model.ForumId;
             post.Thread = thread;

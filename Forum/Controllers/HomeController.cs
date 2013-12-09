@@ -19,7 +19,7 @@ namespace Forum.Controllers
             return View(new ViewModels.ForumViewModel()
             {
                 Categories = ForumDatabase.Category,
-                PermissionManager = new UserPermissionManager(ForumDatabase, ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name))
+                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
             });
         }
 
