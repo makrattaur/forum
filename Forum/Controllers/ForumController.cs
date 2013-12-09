@@ -16,7 +16,7 @@ namespace Forum.Controllers
 
         public ActionResult Index(int id)
         {
-            var forum = db.Forum.SingleOrDefault(f => f.Id == id);
+            var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
             return View(new ThreadViewModel(forum, forum.Thread.ToList()));
         }
 
@@ -27,8 +27,8 @@ namespace Forum.Controllers
         {
             return View(new ViewModels.CategoryViewModel()
             {
-                Category = db.Category.Single(c => c.Id == id),
-                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name)),
+                Category = ForumDatabase.Category.Single(c => c.Id == id),
+                PermissionManager = new UserPermissionManager(ForumDatabase, ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name)),
                 IsSingle = true
             });
         }

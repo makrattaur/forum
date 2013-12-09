@@ -11,7 +11,7 @@ namespace Forum.Controllers
 {
     public class BaseController : Controller
     {
-        protected ForumDataContext db = new ForumDataContext();
+        protected ForumDataContext ForumDatabase = new ForumDataContext();
 
         public static void InitLayoutViewModel(HttpContextBase context, ForumDataContext db, LayoutViewModel lvm)
         {
@@ -26,7 +26,7 @@ namespace Forum.Controllers
 
         private void InitLayoutViewModel(LayoutViewModel lvm)
         {
-            InitLayoutViewModel(HttpContext, db, lvm);
+            InitLayoutViewModel(HttpContext, ForumDatabase, lvm);
         }
 
 

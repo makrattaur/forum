@@ -18,8 +18,8 @@ namespace Forum.Controllers
         {
             return View(new ViewModels.ForumViewModel()
             {
-                Categories = db.Category,
-                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name))
+                Categories = ForumDatabase.Category,
+                PermissionManager = new UserPermissionManager(ForumDatabase, ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name))
             });
         }
 

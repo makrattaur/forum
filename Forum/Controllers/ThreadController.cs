@@ -17,7 +17,7 @@ namespace Forum.Controllers
 
         public ActionResult Index(int id)
         {
-            return View(db.Thread.Where(t => t.Id == id).SingleOrDefault());
+            return View(ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault());
         }
 
         //
@@ -28,7 +28,7 @@ namespace Forum.Controllers
         {
             return View(new ThreadReplyModel()
             {
-                Thread = db.Thread.SingleOrDefault(t => t.Id == id),
+                Thread = ForumDatabase.Thread.SingleOrDefault(t => t.Id == id),
                 ThreadId = id
             });
         }
@@ -41,7 +41,7 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Reply(Models.ThreadReplyModel model)
         {
-            model.Thread = db.Thread.SingleOrDefault(t => t.Id == model.ThreadId);
+            model.Thread = ForumDatabase.Thread.SingleOrDefault(t => t.Id == model.ThreadId);
             if (model.Thread == null)
             {
                 // show generic error.
@@ -58,11 +58,11 @@ namespace Forum.Controllers
             Post post = model.Post;
 
             post.PostTime = DateTime.Now;
-            post.AuthorId = db.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
+            post.AuthorId = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
             post.Thread = thread;
 
-            db.Post.InsertOnSubmit(post);
-            db.SubmitChanges();
+            ForumDatabase.Post.InsertOnSubmit(post);
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Index", new { id = thread.Id });
         }
@@ -76,7 +76,7 @@ namespace Forum.Controllers
             return View(new Models.ThreadCreationModel()
             {
                 ForumId = id,
-                Forum = db.Forum.SingleOrDefault(f => f.Id == id)
+                Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id)
             });
         }
 
@@ -88,7 +88,7 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Models.ThreadCreationModel model)
         {
-            model.Forum = db.Forum.SingleOrDefault(f => f.Id == model.ForumId);
+            model.Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == model.ForumId);
 
             if (string.IsNullOrWhiteSpace(model.Thread.Title))
             {
@@ -106,14 +106,14 @@ namespace Forum.Controllers
             Post post = model.Post;
 
             thread.CreationTime = post.PostTime = DateTime.Now;
-            thread.AuthorId = post.AuthorId = db.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
+            thread.AuthorId = post.AuthorId = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name).Id;
 
             thread.ForumId = model.ForumId;
             post.Thread = thread;
 
-            db.Thread.InsertOnSubmit(thread);
-            db.Post.InsertOnSubmit(post);
-            db.SubmitChanges();
+            ForumDatabase.Thread.InsertOnSubmit(thread);
+            ForumDatabase.Post.InsertOnSubmit(post);
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Index", new { id = thread.Id });
         }

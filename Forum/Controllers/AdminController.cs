@@ -22,7 +22,7 @@ namespace Forum.Controllers
 
         public ActionResult Users()
         {
-            return View((IEnumerable<Database.User>)db.User);
+            return View((IEnumerable<Database.User>)ForumDatabase.User);
         }
 
         //
@@ -30,7 +30,7 @@ namespace Forum.Controllers
 
         public ActionResult Groups()
         {
-            return View((IEnumerable<Database.Group>)db.Group);
+            return View((IEnumerable<Database.Group>)ForumDatabase.Group);
         }
 
         //
@@ -38,7 +38,7 @@ namespace Forum.Controllers
 
         public ActionResult Group(int id)
         {
-            return View(db.Group.SingleOrDefault(g => g.Id == id));
+            return View(ForumDatabase.Group.SingleOrDefault(g => g.Id == id));
         }
 
         //
@@ -47,7 +47,7 @@ namespace Forum.Controllers
         public ActionResult EditGroupPermissions(int id)
         {
             Models.EditGroupPermissionsModel model = new Models.EditGroupPermissionsModel() { GroupId = id };
-            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == id);
 
             WritePermissionsToDictionary((Database.Permissions)model.Group.Permissions, model.Permissions);
 
@@ -61,13 +61,13 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditGroupPermissions(Forum.Models.EditGroupPermissionsModel model)
         {
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
             Database.Permissions newPermissions = GetPermissionsFromDictionary(model.Permissions);
 
             Database.Group group = model.Group;
             group.Permissions = (int)newPermissions;
-            db.SubmitChanges();
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = group.Id });
         }
@@ -78,7 +78,7 @@ namespace Forum.Controllers
         public ActionResult EditGroupName(int id)
         {
             Models.EditGroupNameModel model = new Models.EditGroupNameModel() { GroupId = id };
-            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == id);
 
             return View(model);
         }
@@ -90,7 +90,7 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditGroupName(Forum.Models.EditGroupNameModel model)
         {
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
             Database.Group group = model.Group;
 
@@ -100,7 +100,7 @@ namespace Forum.Controllers
             if (!group.IsSystem)
             {
                 group.Name = model.NewName;
-                db.SubmitChanges();
+                ForumDatabase.SubmitChanges();
             }
 
             return RedirectToAction("Group", new { id = group.Id });
@@ -122,8 +122,8 @@ namespace Forum.Controllers
         public ActionResult CreateGroup(Database.Group group)
         {
             group.IsSystem = false;
-            db.Group.InsertOnSubmit(group);
-            db.SubmitChanges();
+            ForumDatabase.Group.InsertOnSubmit(group);
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = group.Id });
         }
@@ -136,8 +136,8 @@ namespace Forum.Controllers
             var model = new Models.AddGroupMemberModel();
 
             model.GroupId = id;
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
-            model.Users = db.User;
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Users = ForumDatabase.User;
 
             return View(model);
         }
@@ -149,10 +149,10 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddGroupMember(Models.AddGroupMemberModel model)
         {
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
-            db.UserGroup.InsertOnSubmit(new Database.UserGroup() { GroupId = model.GroupId, UserId = model.UserId });
-            db.SubmitChanges();
+            ForumDatabase.UserGroup.InsertOnSubmit(new Database.UserGroup() { GroupId = model.GroupId, UserId = model.UserId });
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = model.GroupId });
         }
@@ -165,7 +165,7 @@ namespace Forum.Controllers
             var model = new Models.AddGroupMemberModel();
 
             model.GroupId = id;
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
             model.Users = model.Group.UserGroup.Select(ug => ug.User);
 
             return View(model);
@@ -178,11 +178,11 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RemoveGroupMember(Models.AddGroupMemberModel model)
         {
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
 
             Database.UserGroup userGroup = model.Group.UserGroup.Single(ug => ug.UserId == model.UserId);
-            db.UserGroup.DeleteOnSubmit(userGroup);
-            db.SubmitChanges();
+            ForumDatabase.UserGroup.DeleteOnSubmit(userGroup);
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = model.GroupId });
         }
@@ -193,8 +193,8 @@ namespace Forum.Controllers
         public ActionResult AddPerForumGroupPermissions(int id)
         {
             Models.AddPerForumGroupPermissionModel model = new Models.AddPerForumGroupPermissionModel() { GroupId = id };
-            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
-            model.Forums = db.Forum;
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == id);
+            model.Forums = ForumDatabase.Forum;
 
             return View(model);
         }
@@ -206,13 +206,13 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPerForumGroupPermissions(Forum.Models.AddPerForumGroupPermissionModel model)
         {
-            db.PerForumGroupPermissions.InsertOnSubmit(new Database.PerForumGroupPermissions()
+            ForumDatabase.PerForumGroupPermissions.InsertOnSubmit(new Database.PerForumGroupPermissions()
             {
                 ForumId = model.ForumId,
                 GroupId = model.GroupId,
                 Permissions = 0
             });
-            db.SubmitChanges();
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = model.GroupId });
         }
@@ -223,10 +223,10 @@ namespace Forum.Controllers
         public ActionResult EditPerForumGroupPermissions(int id, int forumId)
         {
             Models.EditPerForumGroupPermissionsModel model = new Models.EditPerForumGroupPermissionsModel() { GroupId = id, ForumId = forumId };
-            model.Group = db.Group.SingleOrDefault(g => g.Id == id);
-            model.Forum = db.Forum.SingleOrDefault(f => f.Id == forumId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == id);
+            model.Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == forumId);
 
-            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
+            var perForumPerm = ForumDatabase.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
             WritePermissionsToDictionary((Database.Permissions)perForumPerm.Permissions, model.Permissions);
 
             return View(model);
@@ -239,14 +239,14 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditPerForumGroupPermissions(Forum.Models.EditPerForumGroupPermissionsModel model)
         {
-            model.Group = db.Group.SingleOrDefault(g => g.Id == model.GroupId);
-            model.Forum = db.Forum.SingleOrDefault(f => f.Id == model.ForumId);
+            model.Group = ForumDatabase.Group.SingleOrDefault(g => g.Id == model.GroupId);
+            model.Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == model.ForumId);
 
             Database.Permissions newPermissions = GetPermissionsFromDictionary(model.Permissions);
 
-            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == model.GroupId && pfgp.ForumId == model.ForumId);
+            var perForumPerm = ForumDatabase.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == model.GroupId && pfgp.ForumId == model.ForumId);
             perForumPerm.Permissions = (int)newPermissions;
-            db.SubmitChanges();
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = model.GroupId });
         }
@@ -256,10 +256,10 @@ namespace Forum.Controllers
 
         public ActionResult DeletePerForumGroupPermissions(int id, int forumId)
         {
-            var perForumPerm = db.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
+            var perForumPerm = ForumDatabase.PerForumGroupPermissions.SingleOrDefault(pfgp => pfgp.GroupId == id && pfgp.ForumId == forumId);
 
-            db.PerForumGroupPermissions.DeleteOnSubmit(perForumPerm);
-            db.SubmitChanges();
+            ForumDatabase.PerForumGroupPermissions.DeleteOnSubmit(perForumPerm);
+            ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Group", new { id = id });
         }

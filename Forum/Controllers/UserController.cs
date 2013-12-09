@@ -50,7 +50,7 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Models.LoginModel model, string ReturnUrl)
         {
-            Database.User user = db.User.SingleOrDefault(u => u.Name == model.User.Name);
+            Database.User user = ForumDatabase.User.SingleOrDefault(u => u.Name == model.User.Name);
             if (user == null)
             {
                 model.Error = "Invalid login information.";
@@ -134,7 +134,7 @@ namespace Forum.Controllers
                 return View(model);
             }
 
-            if (db.User.Any(u => u.Name == model.User.Name))
+            if (ForumDatabase.User.Any(u => u.Name == model.User.Name))
             {
                 model.Error = "The username is alrady taken.";
                 return View(model);
@@ -150,11 +150,11 @@ namespace Forum.Controllers
             newUser.PasswordHash = HashPassword(model.Password);
             newUser.JoinTime = DateTime.Now;
 
-            Database.Group userGroup = db.Group.SingleOrDefault(g => g.Name == "Users" && g.IsSystem);
-            db.UserGroup.InsertOnSubmit(new Database.UserGroup() { Group = userGroup, User = newUser });
+            Database.Group userGroup = ForumDatabase.Group.SingleOrDefault(g => g.Name == "Users" && g.IsSystem);
+            ForumDatabase.UserGroup.InsertOnSubmit(new Database.UserGroup() { Group = userGroup, User = newUser });
 
-            db.User.InsertOnSubmit(model.User);
-            db.SubmitChanges();
+            ForumDatabase.User.InsertOnSubmit(model.User);
+            ForumDatabase.SubmitChanges();
             FormsAuthentication.SetAuthCookie(model.User.Name, true);
 
             return RedirectToAction("Index", "Home");
