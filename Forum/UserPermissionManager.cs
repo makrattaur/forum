@@ -20,7 +20,44 @@ namespace Forum
 
         public bool CanSeeForum(Database.Forum forum)
         {
-            return (GetEffectivePermissions(forum) & Permissions.ViewForum) != 0;
+            return HasPermission(forum, Permissions.ViewForum);
+        }
+
+        public bool CanSeeForumThreads(Database.Forum forum)
+        {
+            return HasPermission(forum, Permissions.SeeThread);
+        }
+
+        public bool CanReadThread(Thread thread)
+        {
+            return HasPermission(thread.Forum, Permissions.ReadThread);
+        }
+
+        public bool CanCreateThread(Database.Forum forum)
+        {
+            return HasPermission(forum, Permissions.CreateThread);
+        }
+
+        public bool CanEditThread(Thread thread)
+        {
+            return HasPermission(thread.Forum, Permissions.EditOwnThread) ||
+                HasPermission(thread.Forum, Permissions.EditThread);
+        }
+
+        public bool CanDeleteThread(Thread thread)
+        {
+            return HasPermission(thread.Forum, Permissions.DeleteOwnThread) ||
+                HasPermission(thread.Forum, Permissions.DeleteThread);
+        }
+
+        private bool IsPermissionSet(Permissions perms, Permissions permToTest)
+        {
+            return (perms & permToTest) != 0;
+        }
+
+        private bool HasPermission(Database.Forum forum, Permissions permToTest)
+        {
+            return IsPermissionSet(GetEffectivePermissions(forum), permToTest);
         }
 
         private Permissions GetEffectivePermissions(Database.Forum forum)
