@@ -13,9 +13,9 @@ namespace Forum.Controllers
     public class ThreadController : BaseController
     {
         //
-        // GET: /Thread/Show/
+        // GET: /Thread/
 
-        public ActionResult Show(int id)
+        public ActionResult Index(int id)
         {
             return View(db.Thread.Where(t => t.Id == id).SingleOrDefault());
         }
@@ -45,7 +45,7 @@ namespace Forum.Controllers
             if (model.Thread == null)
             {
                 // show generic error.
-                return RedirectToAction("Show", new { id = model.Thread.Id });
+                return RedirectToAction("Index", new { id = model.Thread.Id });
             }
 
             if (string.IsNullOrWhiteSpace(model.Post.Content))
@@ -64,7 +64,7 @@ namespace Forum.Controllers
             db.Post.InsertOnSubmit(post);
             db.SubmitChanges();
 
-            return RedirectToAction("Show", new { id = thread.Id });
+            return RedirectToAction("Index", new { id = thread.Id });
         }
 
         //
@@ -115,7 +115,7 @@ namespace Forum.Controllers
             db.Post.InsertOnSubmit(post);
             db.SubmitChanges();
 
-            return RedirectToAction("Show", new { id = thread.Id });
+            return RedirectToAction("Index", new { id = thread.Id });
         }
     }
 }
