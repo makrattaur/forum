@@ -17,7 +17,7 @@
         {
             <tr>
                 <td class="title">
-                    @Html.ActionLink(thread.Title, "Show", new { id = thread.Id }) <br />
+                    @Html.ActionLink(thread.Title, "Show", "Thread", new { id = thread.Id }, null) <br />
                     by @thread.User.Name on @thread.CreationTime
                 </td>
                 <td class="post-count">@thread.Post.Count</td>

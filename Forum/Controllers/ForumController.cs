@@ -12,6 +12,15 @@ namespace Forum.Controllers
     public class ForumController : BaseController
     {
         //
+        // GET: /Forum/
+
+        public ActionResult Index(int id)
+        {
+            var forum = db.Forum.SingleOrDefault(f => f.Id == id);
+            return View(new ThreadViewModel(forum, forum.Thread.ToList()));
+        }
+
+        //
         // GET: /Forum/Category
 
         public ActionResult Category(int id)

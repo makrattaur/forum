@@ -13,15 +13,6 @@ namespace Forum.Controllers
     public class ThreadController : BaseController
     {
         //
-        // GET: /Thread/
-
-        public ActionResult Index(int id)
-        {
-            var forum = db.Forum.SingleOrDefault(f => f.Id == id);
-            return View(new ThreadViewModel(forum, forum.Thread.ToList()));
-        }
-
-        //
         // GET: /Thread/Show/
 
         public ActionResult Show(int id)
