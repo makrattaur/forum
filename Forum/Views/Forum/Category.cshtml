@@ -1,0 +1,10 @@
+﻿@model Forum.ViewModels.CategoryViewModel
+@{
+    ViewBag.Title = "Category";
+}
+
+<h2>@Model.Category.Name</h2>
+
+@Html.Partial("_CategoryPartial", Model)
+
+@Html.ActionLink("Back to board index", "Index", "Home")
