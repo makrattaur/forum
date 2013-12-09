@@ -28,6 +28,24 @@
             <div class="clearfix navigation">
                 <div class="pull-left">
                     @Html.ActionLink("Board index", "Index", "Home")
+                    @if (LayoutModel.CurrentCategory != null)
+                    {
+                        @:> @Html.ActionLink(LayoutModel.CurrentCategory,
+                                "Category",
+                                "Forum",
+                                new { id = LayoutModel.CurrentCategoryId },
+                                null
+                            )
+                    }
+                    @if (LayoutModel.CurrentForum != null)
+                    {
+                        @:> @Html.ActionLink(LayoutModel.CurrentForum,
+                                "Index",
+                                "Forum",
+                                new { id = LayoutModel.CurrentForumId },
+                                null
+                            )
+                    }
                 </div>
                 @if (!(LayoutModel.CurrentController == "User" && (LayoutModel.CurrentAction == "Login" || LayoutModel.CurrentAction == "Register")))
                 {

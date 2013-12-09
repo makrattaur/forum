@@ -11,5 +11,9 @@ namespace Forum.ViewModels
         public string CurrentAction { get; set; }
         public string Username { get; set; }
         public Database.User CurrentUser { get; set; }
+        public string CurrentCategory { get; set; }
+        public int CurrentCategoryId { get; set; }
+        public string CurrentForum { get; set; }
+        public int CurrentForumId { get; set; }
     }
 }

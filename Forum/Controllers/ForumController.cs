@@ -17,6 +17,8 @@ namespace Forum.Controllers
         public ActionResult Index(int id)
         {
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
+            SetCurrentLocation(forum);
+
             return View(new ThreadViewModel(forum, forum.Thread.ToList()));
         }
 
@@ -25,9 +27,12 @@ namespace Forum.Controllers
 
         public ActionResult Category(int id)
         {
+            var category = ForumDatabase.Category.Single(c => c.Id == id);
+            SetCurrentLocation(category);
+
             return View(new ViewModels.CategoryViewModel()
             {
-                Category = ForumDatabase.Category.Single(c => c.Id == id),
+                Category = category,
                 PermissionManager = new UserPermissionManager(ForumDatabase, ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name)),
                 IsSingle = true
             });

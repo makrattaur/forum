@@ -22,6 +22,45 @@ namespace Forum.Controllers
 
             lvm.CurrentController = page.Context.Request.RequestContext.RouteData.GetRequiredString("controller");
             lvm.CurrentAction = page.Context.Request.RequestContext.RouteData.GetRequiredString("action");
+
+            lvm.CurrentCategory = (string)page.ViewData["CurrentCategory"];
+            if (lvm.CurrentCategory != null)
+            {
+                lvm.CurrentCategoryId = (int)page.ViewData["CurrentCategoryId"];
+            }
+
+            lvm.CurrentForum = (string)page.ViewData["CurrentForum"];
+            if (lvm.CurrentForum != null)
+            {
+                lvm.CurrentForumId = (int)page.ViewData["CurrentForumId"];
+            }
+        }
+
+        protected void SetCurrentLocation(Category category, Database.Forum forum)
+        {
+            ViewData["CurrentCategory"] = category.Name;
+            ViewData["CurrentCategoryId"] = category.Id;
+
+            if (forum != null)
+            {
+                ViewData["CurrentForum"] = forum.Name;
+                ViewData["CurrentForumId"] = forum.Id;
+            }
+        }
+
+        protected void SetCurrentLocation(Category category)
+        {
+            SetCurrentLocation(category, null);
+        }
+
+        protected void SetCurrentLocation(Database.Forum forum)
+        {
+            SetCurrentLocation(forum.Category, forum);
+        }
+
+        protected void SetCurrentLocation(Thread thread)
+        {
+            SetCurrentLocation(thread.Forum);
         }
     }
 }

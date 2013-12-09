@@ -17,7 +17,10 @@ namespace Forum.Controllers
 
         public ActionResult Index(int id)
         {
-            return View(ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault());
+            var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
+            SetCurrentLocation(thread);
+
+            return View(thread);
         }
 
         //
@@ -26,9 +29,12 @@ namespace Forum.Controllers
         [Authorize]
         public ActionResult Reply(int id)
         {
+            var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
+            SetCurrentLocation(thread);
+
             return View(new ThreadReplyModel()
             {
-                Thread = ForumDatabase.Thread.SingleOrDefault(t => t.Id == id),
+                Thread = thread,
                 ThreadId = id
             });
         }
@@ -42,6 +48,8 @@ namespace Forum.Controllers
         public ActionResult Reply(Models.ThreadReplyModel model)
         {
             model.Thread = ForumDatabase.Thread.SingleOrDefault(t => t.Id == model.ThreadId);
+            SetCurrentLocation(model.Thread);
+
             if (model.Thread == null)
             {
                 // show generic error.
@@ -73,10 +81,13 @@ namespace Forum.Controllers
         [Authorize]
         public ActionResult Create(int id)
         {
+            var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
+            SetCurrentLocation(forum);
+
             return View(new Models.ThreadCreationModel()
             {
                 ForumId = id,
-                Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id)
+                Forum = forum
             });
         }
 
@@ -89,6 +100,7 @@ namespace Forum.Controllers
         public ActionResult Create(Models.ThreadCreationModel model)
         {
             model.Forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == model.ForumId);
+            SetCurrentLocation(model.Forum);
 
             if (string.IsNullOrWhiteSpace(model.Thread.Title))
             {
