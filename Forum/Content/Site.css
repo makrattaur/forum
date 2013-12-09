@@ -164,3 +164,9 @@ textarea {
     vertical-align: middle;
 }
 
+a.link-normal,
+a.link-normal:hover
+{
+    color: #333;
+}
+
