@@ -1,0 +1,21 @@
+﻿@model Forum.ViewModels.CategoryViewModel
+
+<div class="panel panel-default category-list">
+    <table class="table table-bordered">
+        <tr>
+            <th>@Model.Category.Name</th>
+            <th>Threads</th>
+            <th>Posts</th>
+            <th>Last Post</th>
+        </tr>
+        @foreach (var forum in Model.Category.Forum.OrderBy(f => f.Order).Where(f => Model.PermissionManager.CanSeeForum(f)))
+        {
+            <tr>
+                <td class="forum-name">@Html.ActionLink(forum.Name, "Index", "Thread", new { id = forum.Id }, null)</td>
+                <td class="thread-count">@forum.Thread.Count</td>
+                <td class="post-count">@forum.Thread.SelectMany(t => t.Post).Count()</td>
+                <td class="last-post"> </td>
+            </tr>
+        }
+    </table>
+</div>
