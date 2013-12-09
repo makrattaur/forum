@@ -3,7 +3,16 @@
 <div class="panel panel-default category-list">
     <table class="table table-bordered">
         <tr>
-            <th>@Html.ActionLink(Model.Category.Name, "Category", "Forum", new { id = Model.Category.Id }, new { @class = "link-normal" })</th>
+            <th>
+                @if (Model.IsSingle)
+                {
+                    @:Forum
+                }
+                else
+                {
+                    @Html.ActionLink(Model.Category.Name, "Category", "Forum", new { id = Model.Category.Id }, new { @class = "link-normal" })
+                }
+            </th>
             <th>Threads</th>
             <th>Posts</th>
             <th>Last Post</th>

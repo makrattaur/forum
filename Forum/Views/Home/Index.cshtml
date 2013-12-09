@@ -10,6 +10,7 @@
     @Html.Partial("_CategoryPartial", new Forum.ViewModels.CategoryViewModel() 
     {
         Category = category,
-        PermissionManager = Model.PermissionManager
+        PermissionManager = Model.PermissionManager,
+        IsSingle = false
     });
 }

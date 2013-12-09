@@ -19,7 +19,8 @@ namespace Forum.Controllers
             return View(new ViewModels.CategoryViewModel()
             {
                 Category = db.Category.Single(c => c.Id == id),
-                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name))
+                PermissionManager = new UserPermissionManager(db, db.User.SingleOrDefault(u => u.Name == User.Identity.Name)),
+                IsSingle = true
             });
         }
 

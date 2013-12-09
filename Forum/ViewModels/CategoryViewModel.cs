@@ -9,5 +9,6 @@ namespace Forum.ViewModels
     {
         public Database.Category Category { get; set; }
         public UserPermissionManager PermissionManager { get; set; }
+        public bool IsSingle { get; set; }
     }
 }
