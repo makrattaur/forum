@@ -13,7 +13,7 @@
             <th>Views</th>
             <th>Last Post</th>
         </tr>
-        @foreach (var thread in Model.Threads)
+        @foreach (var thread in Model.Forum.Thread)
         {
             <tr>
                 <td class="title">
@@ -25,7 +25,7 @@
                 <td class="last-post"> </td>
             </tr>
         }
-        @if (Model.Threads.Count() < 1)
+        @if (Model.Forum.Thread.Count() < 1)
         {
             <tr>
                 <td colspan="4">
@@ -36,7 +36,7 @@
     </table>
 </div>
 
-@if(Request.IsAuthenticated)
+@if(Model.PermissionManager.CanCreateThread(Model.Forum))
 {
     @Html.ActionLink("Create new thread", "Create", "Thread", new { id = Model.Forum.Id }, new { @class = "btn btn-primary" }) <br />
 }

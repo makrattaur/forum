@@ -19,7 +19,11 @@ namespace Forum.Controllers
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
             SetCurrentLocation(forum);
 
-            return View(new ThreadViewModel(forum, forum.Thread.ToList()));
+            return View(new ThreadViewModel()
+            {
+                Forum = forum,
+                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
+            });
         }
 
         //

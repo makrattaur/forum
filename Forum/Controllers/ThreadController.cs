@@ -84,6 +84,8 @@ namespace Forum.Controllers
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
             SetCurrentLocation(forum);
 
+            // TODO: No permission error
+
             return View(new Models.ThreadCreationModel()
             {
                 ForumId = id,
