@@ -13,15 +13,15 @@ namespace Forum.Controllers
     {
         protected ForumDataContext ForumDatabase = new ForumDataContext();
 
-        public static void InitLayoutViewModel(HttpContextBase context, ForumDataContext db, LayoutViewModel lvm)
+        public static void InitLayoutViewModel(WebViewPage page, ForumDataContext db, LayoutViewModel lvm)
         {
             lvm.Username = "foobar";
 
-            if (context.Request.IsAuthenticated)
-                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == context.User.Identity.Name);
+            if (page.Context.Request.IsAuthenticated)
+                lvm.CurrentUser = db.User.SingleOrDefault(u => u.Name == page.Context.User.Identity.Name);
 
-            lvm.CurrentController = context.Request.RequestContext.RouteData.GetRequiredString("controller");
-            lvm.CurrentAction = context.Request.RequestContext.RouteData.GetRequiredString("action");
+            lvm.CurrentController = page.Context.Request.RequestContext.RouteData.GetRequiredString("controller");
+            lvm.CurrentAction = page.Context.Request.RequestContext.RouteData.GetRequiredString("action");
         }
     }
 }

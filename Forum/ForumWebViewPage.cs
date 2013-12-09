@@ -13,7 +13,7 @@ namespace Forum
         {
             LayoutModel = new ViewModels.LayoutViewModel();
             using (var db = new Database.ForumDataContext())
-                Controllers.BaseController.InitLayoutViewModel(Context, db, LayoutModel);
+                Controllers.BaseController.InitLayoutViewModel(this, db, LayoutModel);
         }
 
         public override void InitHelpers()
@@ -32,7 +32,7 @@ namespace Forum
         {
             LayoutModel = new ViewModels.LayoutViewModel();
             using (var db = new Database.ForumDataContext())
-                Controllers.BaseController.InitLayoutViewModel(Context, db, LayoutModel);
+                Controllers.BaseController.InitLayoutViewModel(this, db, LayoutModel);
         }
 
         public override void InitHelpers()
