@@ -13,25 +13,29 @@
             <th>Views</th>
             <th>Last Post</th>
         </tr>
-        @foreach (var thread in Model.Forum.Thread)
-        {
-            <tr>
-                <td class="title">
-                    @Html.ActionLink(thread.Title, "Index", "Thread", new { id = thread.Id }, null) <br />
-                    by @thread.User.Name on @thread.CreationTime
-                </td>
-                <td class="post-count">@thread.Post.Count</td>
-                <td class="times-viewed">@thread.TimesViewed</td>
-                <td class="last-post"> </td>
-            </tr>
-        }
-        @if (Model.Forum.Thread.Count() < 1)
-        {
-            <tr>
-                <td colspan="4">
-                    <em>(no posts in forum)</em>
-                </td>
-            </tr> 
+        @{
+            var threads = Model.PermissionManager.CanSeeForumThreads(Model.Forum) ?  Model.Forum.Thread : Enumerable.Empty<Database.Thread>();
+            
+            foreach (var thread in threads)
+            {
+                <tr>
+                    <td class="title">
+                        @Html.ActionLink(thread.Title, "Index", "Thread", new { id = thread.Id }, null) <br />
+                        by @thread.User.Name on @thread.CreationTime
+                    </td>
+                    <td class="post-count">@thread.Post.Count</td>
+                    <td class="times-viewed">@thread.TimesViewed</td>
+                    <td class="last-post"> </td>
+                </tr>
+            }
+            if (threads.Count() < 1)
+            {
+                <tr>
+                    <td colspan="4">
+                        <em>(no threads in forum)</em>
+                    </td>
+                </tr> 
+            }
         }
     </table>
 </div>
