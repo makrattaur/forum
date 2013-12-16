@@ -20,7 +20,11 @@ namespace Forum.Controllers
             var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
             SetCurrentLocation(thread);
 
-            return View(thread);
+            return View(new ThreadViewModel() 
+            {
+                Thread =  thread,
+                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
+            });
         }
 
         //

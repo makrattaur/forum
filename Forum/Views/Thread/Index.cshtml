@@ -1,11 +1,11 @@
-﻿@model Database.Thread
+﻿@model Forum.ViewModels.ThreadViewModel
 @{
     ViewBag.Title = "Show";
 }
 
-<h2>@Model.Title</h2>
+<h2>@Model.Thread.Title</h2>
 
-@foreach (var post in Model.Post)
+@foreach (var post in Model.Thread.Post)
 {
 	<div class="panel panel-default post clearfix" id="@("post" + post.Id)">
         <div class="panel-body">
@@ -42,9 +42,9 @@
 		    </div> <!-- <div class="body clearfix"> -->
 		    <div class="footer clearfix">
 		        <div class="actions pull-right">
-			        @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Id }, new { @class = "btn btn-default btn-xs" }) |
-			        @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Id }, new { @class = "btn btn-default btn-xs" }) |
-			        @Html.ActionLink("Reply", "Reply", "Thread", new { id = Model.Id }, new { @class = "btn btn-default btn-xs" })
+			        @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" }) |
+			        @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" }) |
+			        @Html.ActionLink("Reply", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
 		        </div> <!--  <div class="actions pull-right"> -->
 		    </div> <!-- <div class="footer clearfix"> -->
         </div> <!-- <div class="panel-body"> -->
@@ -53,6 +53,6 @@
 
 @if(Request.IsAuthenticated)
 {
-    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Id }, new { @class = "btn btn-primary" }) <br />
+    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-primary" }) <br />
 }
-@Html.ActionLink("Back to threads", "Index", "Forum", new { id = Model.ForumId }, null)
+@Html.ActionLink("Back to threads", "Index", "Forum", new { id = Model.Thread.ForumId }, null)
