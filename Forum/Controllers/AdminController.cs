@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Database;
+
 namespace Forum.Controllers
 {
     [CustomAuthorize(Roles = "Administrators", NoRedirect = true, SilentError = true)]
@@ -39,6 +41,73 @@ namespace Forum.Controllers
         public ActionResult Group(int id)
         {
             return View(ForumDatabase.Group.SingleOrDefault(g => g.Id == id));
+        }
+
+        //
+        // GET: /Admin/Board
+
+        public ActionResult Board()
+        {
+            return View(ForumDatabase.Category);
+        }
+
+        //
+        // GET: /Admin/AddCategory
+
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Admin/AddCategory
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCategory(string newCategoryName)
+        {
+            // Last not supported.
+            var lastCategory = ForumDatabase.Category.OrderByDescending(c => c.Order).First();
+
+            ForumDatabase.Category.InsertOnSubmit(new Category()
+            {
+                Name = newCategoryName,
+                Order = (short)(lastCategory.Order + 1)
+            });
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Board");
+        }
+
+        //
+        // GET: /Admin/AddForum
+
+        public ActionResult AddForum(int id)
+        {
+            return View(ForumDatabase.Category.SingleOrDefault(c => c.Id == id));
+        }
+
+        //
+        // POST: /Admin/AddForum
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddForum(int id, string newForumName)
+        {
+            var category = ForumDatabase.Category.SingleOrDefault(c => c.Id == id);
+            // Last not supported.
+            var lastForum = category.Forum.OrderByDescending(f => f.Order).FirstOrDefault();
+
+            ForumDatabase.Forum.InsertOnSubmit(new Database.Forum()
+            {
+                Name = newForumName,
+                Order = lastForum == null ? (short)1 : (short)(lastForum.Order + 1),
+                Category = category,
+                CategoryId = category.Id
+            });
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Board");
         }
 
         //

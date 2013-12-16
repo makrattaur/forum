@@ -1,0 +1,19 @@
+﻿@model Database.Category
+@{
+    ViewBag.Title = "Add Forum";
+}
+
+<h2>Add New Forum</h2>
+
+<p>Category: @Model.Name</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("id", Model.Id)
+    
+    @Html.Label("newForumName", "Forum Name")
+    @Html.TextBox("newForumName")
+
+    <input type="submit" value="Create" />
+}

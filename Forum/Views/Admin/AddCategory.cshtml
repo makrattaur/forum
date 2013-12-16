@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Add Category";
+}
+
+<h2>Add New Category</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.Label("newCategoryName", "Category Name")
+    @Html.TextBox("newCategoryName")
+
+    <input type="submit" value="Create" />
+}

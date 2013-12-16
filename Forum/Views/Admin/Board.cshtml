@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Database.Category>
+@{
+    ViewBag.Title = "Administrate Board";
+}
+
+<h2>Board</h2>
+
+@foreach (var category in Model.OrderBy(c => c.Order))
+{
+    <h3>@category.Name</h3>
+    @Html.ActionLink("Add Forum", "AddForum", new { id = category.Id }, null)
+    <ul>
+        @foreach (var forum in category.Forum.OrderBy(f => f.Order))
+        {
+            <li>@forum.Name</li>
+        }
+    </ul>
+}
+
+@Html.ActionLink("Add Category", "AddCategory")
+
