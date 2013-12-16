@@ -184,3 +184,9 @@ div.actions a.btn
     margin-bottom: 6em;
 }
 
+a.nolink, a.nolink:hover
+{
+    color: #333;
+    text-decoration: none;
+}
+
