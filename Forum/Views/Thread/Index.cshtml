@@ -9,7 +9,7 @@
     var canReply = Model.PermissionManager.CanReplyInThread(Model.Thread);
        
     foreach (var post in Model.Thread.Post)
-    {
+    {       
 	    <div class="panel panel-default post clearfix" id="@("post" + post.Id)">
             <div class="panel-body">
 		        <div class="info clearfix">
@@ -45,8 +45,19 @@
 		        </div> <!-- <div class="body clearfix"> -->
 		        <div class="footer clearfix">
 		            <div class="actions pull-right">
-			            @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
-			            @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+                        @{
+                            var canEdit = Model.PermissionManager.CanEditPost(post);
+                            var canDelete = Model.PermissionManager.CanDeletePost(post);
+                            
+                            if(canDelete)
+                            {
+			                    @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+                            }
+                            if(canEdit)
+                            {
+			                    @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+                            }
+                        }
                         @if(canReply)
                         {
 			                @Html.ActionLink("Reply", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
