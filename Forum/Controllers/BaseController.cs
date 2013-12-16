@@ -63,6 +63,9 @@ namespace Forum.Controllers
 
         protected void SetCurrentLocation(Thread thread)
         {
+            thread.TimesViewed++;
+            ForumDatabase.SubmitChanges();
+
             SetCurrentLocation(thread.Forum);
         }
 
