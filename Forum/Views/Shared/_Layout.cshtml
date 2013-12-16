@@ -52,7 +52,7 @@
                     <div class="pull-right">
                         @if(Request.IsAuthenticated)
                         {
-                            @:Logged in as @(LayoutModel.CurrentUser.Name). @Html.ActionLink("Log off", "LogOff", "User")
+                            @:Logged in as @Html.ActionLink(LayoutModel.CurrentUser.Name, "Index", "User", new { id = LayoutModel.CurrentUser.Id }, null). @Html.ActionLink("Log off", "LogOff", "User")
                         }
                         else
                         {
