@@ -7,6 +7,7 @@
 
 @{
     var canReply = Model.PermissionManager.CanReplyInThread(Model.Thread);
+    var firstPost = true;
        
     foreach (var post in Model.Thread.Post)
     {       
@@ -48,14 +49,16 @@
                         @{
                             var canEdit = Model.PermissionManager.CanEditPost(post);
                             var canDelete = Model.PermissionManager.CanDeletePost(post);
+                            var controllerName = firstPost ? "Thread" : "Post";
+                            var linkId = firstPost ? Model.Thread.Id : post.Id;
                             
                             if(canDelete)
                             {
-			                    @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+			                    @Html.ActionLink("Delete", "Delete", controllerName, new { id = linkId }, new { @class = "btn btn-default btn-xs" })
                             }
                             if(canEdit)
                             {
-			                    @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+			                    @Html.ActionLink("Edit", "Edit", controllerName, new { id = linkId }, new { @class = "btn btn-default btn-xs" })
                             }
                         }
                         @if(canReply)
@@ -66,6 +69,7 @@
 		        </div> <!-- <div class="footer clearfix"> -->
             </div> <!-- <div class="panel-body"> -->
 	    </div> <!-- <div class="panel panel-default post clearfix" id="..."> -->
+        firstPost = false;
     }
 
     if(canReply)
