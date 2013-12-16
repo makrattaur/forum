@@ -31,7 +31,7 @@
                         {
                             var lastPost = forum.Thread.Last().Post.Last();
                             
-                            @:by @lastPost.User.Name @Html.ActionLink(" ", "Index", "Thread", new { id = lastPost.ThreadId }, new { @class = "glyphicon glyphicon-circle-arrow-right nolink" })<br />
+                            @:by @Html.ActionLink(lastPost.User.Name, "Index", "User", new { id = lastPost.User.Id }, null) @Html.ActionLink(" ", "Index", "Thread", new { id = lastPost.ThreadId }, new { @class = "glyphicon glyphicon-circle-arrow-right nolink" })<br />
                             @lastPost.PostTime
                         }
                         else
