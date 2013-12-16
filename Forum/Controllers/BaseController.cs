@@ -65,6 +65,11 @@ namespace Forum.Controllers
             SetCurrentLocation(thread.Forum);
         }
 
+        protected void SetCurrentLocation(Post post)
+        {
+            SetCurrentLocation(post.Thread);
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
