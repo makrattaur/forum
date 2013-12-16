@@ -277,6 +277,7 @@
     <Content Include="Views\Thread\Edit.cshtml" />
     <Content Include="Views\Thread\Delete.cshtml" />
     <Content Include="Views\Reply\Edit.cshtml" />
+    <Content Include="Views\Reply\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

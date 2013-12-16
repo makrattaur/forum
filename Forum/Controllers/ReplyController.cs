@@ -9,11 +9,44 @@ namespace Forum.Controllers
     public class ReplyController : BaseController
     {
         //
-        // GET: /Reply/Delete
+        // GET: /Reply/Delete/
 
-        public ActionResult Delete()
+        [Authorize]
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+                return ForumError("No reply specified.");
+
+            var post = ForumDatabase.Post.SingleOrDefault(p => p.Id == id);
+            if (post == null)
+                return ForumError("Invalid reply specified.");
+
+            if (!PermissionManager.CanDeletePost(post))
+                return NoPermissionError("delete a reply");
+
+            SetCurrentLocation(post);
+
+            return View(post);
+        }
+
+        //
+        // POST: /Reply/Delete/
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteSubmitted(int? id)
+        {
+            var post = ForumDatabase.Post.SingleOrDefault(p => p.Id == id);
+            if (post == null)
+                return ForumError("Invalid reply specified.");
+
+            var threadId = post.ThreadId;
+            ForumDatabase.Post.DeleteOnSubmit(post);
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Index", "Thread", new { id = threadId });
         }
 
         //
