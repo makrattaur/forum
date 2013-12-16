@@ -50,7 +50,7 @@ namespace Forum.Controllers
                 return ForumError("Invalid thread specified.");
 
             if (!PermissionManager.CanReplyInThread(thread))
-                return NoPermissionError("reply to this thread");
+                return NoPermissionError("reply to this post");
 
             SetCurrentLocation(thread);
 
@@ -111,7 +111,7 @@ namespace Forum.Controllers
                 return ForumError("Invalid forum specified.");
 
             if (!PermissionManager.CanCreateThread(forum))
-                return NoPermissionError("create a thread in this forum");
+                return NoPermissionError("create a thread");
 
             SetCurrentLocation(forum);
 
@@ -178,7 +178,7 @@ namespace Forum.Controllers
 
             var post = thread.Post.First();
             if (!PermissionManager.CanEditPost(post))
-                return NoPermissionError("edit a thread in this forum");
+                return NoPermissionError("edit a thread");
 
             SetCurrentLocation(thread);
 
@@ -241,7 +241,7 @@ namespace Forum.Controllers
                 return ForumError("Invalid thread specified.");
 
             if (!PermissionManager.CanDeletePost(thread.Post.First()))
-                return NoPermissionError("delete a thread in this forum");
+                return NoPermissionError("delete a thread");
 
             SetCurrentLocation(thread);
 
