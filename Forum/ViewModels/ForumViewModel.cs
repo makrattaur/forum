@@ -8,7 +8,7 @@ using Forum.ViewModels;
 
 namespace Forum.ViewModels
 {
-    public class ThreadViewModel
+    public class ForumViewModel
     {
         public Database.Forum Forum { get; set; }
         public UserPermissionManager PermissionManager { get; set; }
