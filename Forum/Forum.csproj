@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\BoardIndexViewModel.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
+    <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="ViewModels\ViewModelWrapper.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
   </ItemGroup>
