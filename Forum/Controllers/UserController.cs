@@ -16,9 +16,14 @@ namespace Forum.Controllers
         //
         // GET: /User/
 
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View();
+            Database.User user = id == null ? CurrentForumUser : ForumDatabase.User.SingleOrDefault(u => u.Id == id);
+
+            if (user == null)
+                return ForumError("Invalid user specified.");
+
+            return View(user);
         }
 
         //

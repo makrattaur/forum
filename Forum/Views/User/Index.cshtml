@@ -1,0 +1,13 @@
+﻿@model Database.User
+@{
+    ViewBag.Title = "User Profile";
+}
+
+<h2>User Profile of @Model.Name</h2>
+
+<p>
+    Email: @Model.Email<br />
+    Joined on: @Model.JoinTime<br />
+    Threads: @Model.Thread.Count<br />
+    Posts: @Model.Post.Count<br />
+</p>
