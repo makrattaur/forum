@@ -162,5 +162,74 @@ namespace Forum.Controllers
 
             return RedirectToAction("Index", new { id = thread.Id });
         }
+
+        //
+        // GET: /Thread/Edit/
+
+        [Authorize]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return ForumError("No thread specified.");
+
+            var thread = ForumDatabase.Thread.SingleOrDefault(f => f.Id == id);
+            if (thread == null)
+                return ForumError("Invalid thread specified.");
+
+            if (!PermissionManager.CanEditPost(thread.Post.First()))
+                return NoPermissionError("edit a thread in this forum");
+
+            SetCurrentLocation(thread);
+
+            // TODO: No permission error
+
+            return View(new Models.ThreadEditModel()
+            {
+                ForumId = id.Value,
+                Forum = thread.Forum,
+                ThreadId = thread.Id,
+                Thread = thread,
+                Post = thread.Post.First()
+            });
+        }
+
+        //
+        // POST: /Thread/Edit/
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Models.ThreadEditModel model)
+        {
+            string newTitle = model.Thread.Title;
+            string newContent = model.Post.Content;
+
+            model.Thread = ForumDatabase.Thread.SingleOrDefault(f => f.Id == model.ThreadId);
+            if (model.Thread == null)
+                return ForumError("Invalid thread specified.");
+
+            SetCurrentLocation(model.Thread);
+
+            if (string.IsNullOrWhiteSpace(newTitle))
+            {
+                model.Error = "The title cannot be empty.";
+                return View(model);
+            }
+
+            if (string.IsNullOrWhiteSpace(newContent))
+            {
+                model.Error = "The content cannot be empty.";
+                return View(model);
+            }
+
+            var thread = model.Thread;
+            var post = thread.Post.First();
+
+            thread.Title = newTitle;
+            post.Content = newContent;
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Index", new { id = thread.Id });
+        }
     }
 }
