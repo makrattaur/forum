@@ -5,6 +5,8 @@
 
 <h2>Board</h2>
 
+@Html.ActionLink("Add Category", "AddCategory")
+
 @foreach (var category in Model.OrderBy(c => c.Order))
 {
     <h3>@category.Name</h3>
@@ -17,5 +19,5 @@
     </ul>
 }
 
-@Html.ActionLink("Add Category", "AddCategory")
+@Html.ActionLink("Back to control panel", "Index")
 
