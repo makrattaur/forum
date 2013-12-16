@@ -14,7 +14,7 @@ namespace Forum.Controllers
         //
         // GET: /Forum/
 
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int? page)
         {
             if (id == null)
                 return ForumError("No forum specified.");
@@ -28,6 +28,7 @@ namespace Forum.Controllers
             return View(new ForumViewModel()
             {
                 Forum = forum,
+                Page = page.HasValue ? page.Value : 1,
                 PermissionManager = PermissionManager
             });
         }

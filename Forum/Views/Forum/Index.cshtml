@@ -16,7 +16,7 @@
         @{
             var threads = Model.PermissionManager.CanSeeForumThreads(Model.Forum) ?  Model.Forum.Thread : Enumerable.Empty<Database.Thread>();
             
-            foreach (var thread in threads)
+            foreach (var thread in threads.Skip((Model.Page - 1) * 10).Take(10))
             {
                 <tr>
                     <td class="title">
@@ -40,8 +40,33 @@
     </table>
 </div>
 
-@if(Model.PermissionManager.CanCreateThread(Model.Forum))
-{
-    @Html.ActionLink("Create new thread", "Create", "Thread", new { id = Model.Forum.Id }, new { @class = "btn btn-primary" }) <br />
-}
+<div class="clearfix">
+    <div class="pull-left">
+        @if(Model.PermissionManager.CanCreateThread(Model.Forum))
+        {
+            @Html.ActionLink("Create new thread", "Create", "Thread", new { id = Model.Forum.Id }, new { @class = "btn btn-primary" }) <br />
+        }
+    </div>
+    <div class="forum-pager pull-right" style="display: table;">
+        @{
+            var pageCount = (int)Math.Ceiling((float)threads.Count() / 10.0f);
+            var displayPager = pageCount > 1;
+            
+            if(displayPager)
+            {
+                <span class="page-number" style="display: table-cell; vertical-align: middle; padding-right: 5px;">Page @Model.Page of @pageCount</span>
+            
+                var lowerBound = Math.Min(pageCount - 2, 1);
+                var upperBound = Math.Min(pageCount + 2, pageCount);
+
+                <ul class="pagination" style="margin: 0; display: table-cell; vertical-align: middle;">
+                @for (int i = lowerBound; i <= upperBound; i++)
+                {
+                    <li @Html.Raw(i == Model.Page ? "class=\"active\"" : null)>@Html.ActionLink(i.ToString(), "Index", new { page = i })</li>
+                }
+                </ul>
+            }
+        }
+    </div>
+</div>
 @Html.ActionLink("Back to forums", "Index", "Home")

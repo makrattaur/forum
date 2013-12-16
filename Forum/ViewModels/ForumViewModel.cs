@@ -11,6 +11,7 @@ namespace Forum.ViewModels
     public class ForumViewModel
     {
         public Database.Forum Forum { get; set; }
+        public int Page { get; set; }
         public UserPermissionManager PermissionManager { get; set; }
     }
 }
