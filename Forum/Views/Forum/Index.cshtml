@@ -25,7 +25,14 @@
                     </td>
                     <td class="post-count">@thread.Post.Count</td>
                     <td class="times-viewed">@thread.TimesViewed</td>
-                    <td class="last-post"> </td>
+                    <td class="last-post">
+                        @{
+                            var lastPost = thread.Post.Last();
+                            
+                            @:by @lastPost.User.Name @Html.ActionLink(" ", "Index", "Thread", new { id = thread.Id }, new { @class = "glyphicon glyphicon-circle-arrow-right" })<br />
+                            @lastPost.PostTime
+                        }
+                    </td>
                 </tr>
             }
             if (threads.Count() < 1)
