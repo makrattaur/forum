@@ -17,13 +17,13 @@
     @Html.HiddenFor(m => m.ThreadId)
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Thread.Title, "Title: ")
-        @Html.TextBoxFor(m => m.Thread.Title, new { @class = "form-control", style = "width: 300px;", @value = Model.Thread.Title })
+        @Html.LabelFor(m => m.NewTitle, "Title: ")
+        @Html.TextBoxFor(m => m.NewTitle, new { @class = "form-control", style = "width: 300px;", @value = Model.NewTitle })
     </div>
     
     <div class="form-group">
-        @Html.LabelFor(m => m.Post.Content, "Message: ")<br />
-        @Html.TextAreaFor(m => m.Post.Content, new { @class = "form-control", rows = "10", @value = Model.Post.Content })
+        @Html.LabelFor(m => m.NewContent, "Message: ")<br />
+        @Html.TextAreaFor(m => m.NewContent, new { @class = "form-control", rows = "10", @value = Model.NewContent })
     </div>
     
     <input type="submit" class="btn btn-primary" value="Edit" />

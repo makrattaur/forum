@@ -176,20 +176,18 @@ namespace Forum.Controllers
             if (thread == null)
                 return ForumError("Invalid thread specified.");
 
-            if (!PermissionManager.CanEditPost(thread.Post.First()))
+            var post = thread.Post.First();
+            if (!PermissionManager.CanEditPost(post))
                 return NoPermissionError("edit a thread in this forum");
 
             SetCurrentLocation(thread);
 
-            // TODO: No permission error
-
             return View(new Models.ThreadEditModel()
             {
-                ForumId = id.Value,
-                Forum = thread.Forum,
                 ThreadId = thread.Id,
+                NewTitle = thread.Title,
+                NewContent = post.Content,
                 Thread = thread,
-                Post = thread.Post.First()
             });
         }
 
@@ -201,22 +199,19 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Models.ThreadEditModel model)
         {
-            string newTitle = model.Thread.Title;
-            string newContent = model.Post.Content;
-
             model.Thread = ForumDatabase.Thread.SingleOrDefault(f => f.Id == model.ThreadId);
             if (model.Thread == null)
                 return ForumError("Invalid thread specified.");
 
             SetCurrentLocation(model.Thread);
 
-            if (string.IsNullOrWhiteSpace(newTitle))
+            if (string.IsNullOrWhiteSpace(model.NewTitle))
             {
                 model.Error = "The title cannot be empty.";
                 return View(model);
             }
 
-            if (string.IsNullOrWhiteSpace(newContent))
+            if (string.IsNullOrWhiteSpace(model.NewContent))
             {
                 model.Error = "The content cannot be empty.";
                 return View(model);
@@ -225,8 +220,8 @@ namespace Forum.Controllers
             var thread = model.Thread;
             var post = thread.Post.First();
 
-            thread.Title = newTitle;
-            post.Content = newContent;
+            thread.Title = model.NewTitle;
+            post.Content = model.NewContent;
             ForumDatabase.SubmitChanges();
 
             return RedirectToAction("Index", new { id = thread.Id });
