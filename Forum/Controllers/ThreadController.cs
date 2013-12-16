@@ -15,7 +15,7 @@ namespace Forum.Controllers
         //
         // GET: /Thread/
 
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int? page)
         {
             if (id == null)
                 return ForumError("No thread specified.");
@@ -32,6 +32,7 @@ namespace Forum.Controllers
             return View(new ThreadViewModel() 
             {
                 Thread =  thread,
+                Page = page.HasValue ? page.Value : 1,
                 PermissionManager = PermissionManager
             });
         }

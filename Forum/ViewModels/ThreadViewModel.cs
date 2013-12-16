@@ -8,6 +8,7 @@ namespace Forum.ViewModels
     public class ThreadViewModel
     {
         public Database.Thread Thread { get; set; }
+        public int Page { get; set; }
         public UserPermissionManager PermissionManager { get; set; }
     }
 }

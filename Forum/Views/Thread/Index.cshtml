@@ -7,18 +7,19 @@
 
 @{
     var canReply = Model.PermissionManager.CanReplyInThread(Model.Thread);
-    var firstPost = true;
-       
-    foreach (var post in Model.Thread.Post)
+    var firstPost = Model.Page == 1 ? true : false;
+    var postNumber = (Model.Page - 1) * 10 + 1;
+
+    foreach (var post in Model.Thread.Post.Skip((Model.Page - 1) * 10).Take(10))
     {       
-	    <div class="panel panel-default post clearfix" id="@("post" + post.Id)">
+	    <div class="panel panel-default post clearfix" id="@("post" + postNumber)">
             <div class="panel-body">
 		        <div class="info clearfix">
 			        <span class="date pull-left">
 				        @post.PostTime
 			        </span>
 			        <span class="permalink pull-right">
-                        @Html.ActionLink("#" + post.Id, "Index", "Thread", null, null, "post" + post.Id, null, null)
+                        @Html.ActionLink("#" + postNumber, "Index", "Thread", null, null, "post" + postNumber, null, null)
 			        </span>
 		        </div> <!-- <div class="info clearfix"> -->
 		        <div class="body clearfix">
@@ -72,11 +73,38 @@
             </div> <!-- <div class="panel-body"> -->
 	    </div> <!-- <div class="panel panel-default post clearfix" id="..."> -->
         firstPost = false;
+        postNumber++;
     }
 
-    if(canReply)
-    {
-        @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-primary" }) <br />
-    }
+    <div class="clearfix">
+        <div class="pull-left">
+            @if(canReply)
+            {
+                @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-primary" }) <br />
+            }
+        </div>
+        <div class="thread-pager pull-right" style="display: table;">
+            @{
+                var pageCount = (int)Math.Ceiling((float)Model.Thread.Post.Count() / 10.0f);
+                var displayPager = pageCount > 1;
+            
+                if(displayPager)
+                {
+                    <span class="page-number" style="display: table-cell; vertical-align: middle; padding-right: 5px;">Page @Model.Page of @pageCount</span>
+            
+                    var lowerBound = Math.Max(pageCount - 2, 1);
+                    var upperBound = Math.Min(pageCount + 2, pageCount);
+
+                    <ul class="pagination" style="margin: 0; display: table-cell; vertical-align: middle;">
+                    @for (int i = lowerBound; i <= upperBound; i++)
+                    {
+                        <li @Html.Raw(i == Model.Page ? "class=\"active\"" : null)>@Html.ActionLink(i.ToString(), "Index", new { page = i })</li>
+                    }
+                    </ul>
+                }
+            }
+        </div>
+    </div>
+    
 }
 @Html.ActionLink("Back to threads", "Index", "Forum", new { id = Model.Thread.ForumId }, null)
