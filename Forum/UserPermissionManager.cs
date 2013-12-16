@@ -40,14 +40,28 @@ namespace Forum
 
         public bool CanEditPost(Post post)
         {
-            return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.EditOwnPost) :
-                HasPermission(post.Thread.Forum, Permissions.EditPost);
+            if (user != null)
+            {
+                return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.EditOwnPost) :
+                    HasPermission(post.Thread.Forum, Permissions.EditPost);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool CanDeletePost(Post post)
         {
-            return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.DeleteOwnPost) :
-                HasPermission(post.Thread.Forum, Permissions.DeletePost);
+            if (user != null)
+            {
+                return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.DeleteOwnPost) :
+                    HasPermission(post.Thread.Forum, Permissions.DeletePost);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool CanReplyInThread(Thread thread)
