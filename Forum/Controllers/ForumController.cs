@@ -28,7 +28,7 @@ namespace Forum.Controllers
             return View(new ForumViewModel()
             {
                 Forum = forum,
-                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
+                PermissionManager = PermissionManager
             });
         }
 
@@ -49,7 +49,7 @@ namespace Forum.Controllers
             return View(new ViewModels.CategoryViewModel()
             {
                 Category = category,
-                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser),
+                PermissionManager = PermissionManager,
                 IsSingle = true
             });
         }

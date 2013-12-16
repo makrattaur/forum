@@ -13,6 +13,7 @@ namespace Forum.Controllers
     {
         protected ForumDataContext ForumDatabase = new ForumDataContext();
         protected User CurrentForumUser;
+        protected UserPermissionManager PermissionManager;
 
         public static void InitLayoutViewModel(WebViewPage page, ForumDataContext db, LayoutViewModel lvm)
         {
@@ -69,6 +70,7 @@ namespace Forum.Controllers
             base.OnActionExecuting(filterContext);
 
             CurrentForumUser = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name);
+            PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser);
         }
 
         protected ActionResult ForumError(string message)

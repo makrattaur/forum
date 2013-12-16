@@ -29,7 +29,7 @@ namespace Forum.Controllers
             return View(new ThreadViewModel() 
             {
                 Thread =  thread,
-                PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
+                PermissionManager = PermissionManager
             });
         }
 
