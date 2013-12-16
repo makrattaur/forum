@@ -70,5 +70,13 @@ namespace Forum.Controllers
 
             CurrentForumUser = ForumDatabase.User.SingleOrDefault(u => u.Name == User.Identity.Name);
         }
+
+        protected ActionResult ForumError(string message)
+        {
+            return View("ForumError", new ViewModels.ForumErrorViewModel()
+            {
+                Message = message
+            });
+        }
     }
 }

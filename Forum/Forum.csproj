@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\BoardIndexViewModel.cs" />
+    <Compile Include="ViewModels\ForumErrorViewModel.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
     <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="ViewModels\ViewModelWrapper.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Forum\Category.cshtml" />
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Thread\Index.cshtml" />
+    <Content Include="Views\Shared\ForumError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
