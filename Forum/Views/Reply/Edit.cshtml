@@ -1,0 +1,28 @@
+﻿@model Forum.Models.ReplyEditModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>@Model.Post.Thread.Title</h2>
+<h3>Edit reply to thread</h3>
+
+@if (Model.Error != null)
+{
+    <div class="text-danger form-validation-error">@Model.Error</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.PostId)
+  
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewContent, "Message: ")<br />
+        @Html.TextAreaFor(m => m.NewContent, new { @class = "form-control", rows = "10", @value = Model.NewContent })
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Edit" />
+}
+
+@Html.ActionLink("Back to thread", "Index", "Thread", new { id = Model.Post.ThreadId }, null)
+

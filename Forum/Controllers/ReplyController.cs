@@ -17,11 +17,56 @@ namespace Forum.Controllers
         }
 
         //
-        // GET: /Reply/Edit
+        // GET: /Reply/Edit/
 
-        public ActionResult Edit()
+        [Authorize]
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return ForumError("No reply specified.");
+
+            var post = ForumDatabase.Post.SingleOrDefault(p => p.Id == id);
+            if (post == null)
+                return ForumError("Invalid reply specified.");
+
+            if (!PermissionManager.CanEditPost(post))
+                return NoPermissionError("edit a reply");
+
+            SetCurrentLocation(post);
+
+            return View(new Models.ReplyEditModel()
+            {
+                PostId = post.Id,
+                NewContent = post.Content,
+                Post = post,
+            });
+        }
+
+        //
+        // POST: /Reply/Edit/
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Models.ReplyEditModel model)
+        {
+            model.Post = ForumDatabase.Post.SingleOrDefault(p => p.Id == model.PostId);
+            if (model.Post == null)
+                return ForumError("Invalid reply specified.");
+
+            SetCurrentLocation(model.Post);
+
+            if (string.IsNullOrWhiteSpace(model.NewContent))
+            {
+                model.Error = "The content cannot be empty.";
+                return View(model);
+            }
+
+            var post = model.Post;
+            post.Content = model.NewContent;
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Index", "Thread", new { id = post.ThreadId });
         }
     }
 }

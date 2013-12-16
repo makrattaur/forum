@@ -141,6 +141,7 @@
     <Compile Include="Models\EditGroupNameModel.cs" />
     <Compile Include="Models\EditPerForumGroupPermissionsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ReplyEditModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\ThreadCreationModel.cs" />
@@ -275,6 +276,7 @@
     <Content Include="Views\Shared\ForumError.cshtml" />
     <Content Include="Views\Thread\Edit.cshtml" />
     <Content Include="Views\Thread\Delete.cshtml" />
+    <Content Include="Views\Reply\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
