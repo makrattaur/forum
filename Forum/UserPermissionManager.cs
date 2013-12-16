@@ -50,6 +50,11 @@ namespace Forum
                 HasPermission(thread.Forum, Permissions.DeleteThread);
         }
 
+        public bool CanReplyInThread(Thread thread)
+        {
+            return HasPermission(thread.Forum, Permissions.ReplyThread);
+        }
+
         private bool IsPermissionSet(Permissions perms, Permissions permToTest)
         {
             return (perms & permToTest) != 0;
