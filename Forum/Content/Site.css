@@ -170,3 +170,8 @@ a.link-normal:hover
     color: #333;
 }
 
+div.actions a.btn
+{
+    margin-left: 0.5em;
+}
+
