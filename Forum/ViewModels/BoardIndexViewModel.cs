@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Forum.ViewModels
 {
-    public class ForumViewModel
+    public class BoardIndexViewModel
     {
         public IEnumerable<Database.Category> Categories { get; set; }
         public UserPermissionManager PermissionManager { get; set; }

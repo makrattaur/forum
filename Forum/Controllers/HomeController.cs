@@ -16,7 +16,7 @@ namespace Forum.Controllers
 
         public ActionResult Index()
         {
-            return View(new ViewModels.ForumViewModel()
+            return View(new ViewModels.BoardIndexViewModel()
             {
                 Categories = ForumDatabase.Category,
                 PermissionManager = new UserPermissionManager(ForumDatabase, CurrentForumUser)
