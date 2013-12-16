@@ -80,5 +80,13 @@ namespace Forum.Controllers
                 Message = message
             });
         }
+
+        protected ActionResult NoPermissionError(string action)
+        {
+            return View("ForumError", new ViewModels.ForumErrorViewModel()
+            {
+                Message = "You do not have permission to " + action + "."
+            });
+        }
     }
 }

@@ -24,6 +24,9 @@ namespace Forum.Controllers
             if (thread == null)
                 return ForumError("Invalid thread specified.");
 
+            if (!PermissionManager.CanReadThread(thread))
+                return NoPermissionError("read threads in this forum");
+
             SetCurrentLocation(thread);
 
             return View(new ThreadViewModel() 
@@ -45,6 +48,9 @@ namespace Forum.Controllers
             var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
             if (thread == null)
                 return ForumError("Invalid thread specified.");
+
+            if (!PermissionManager.CanReplyInThread(thread))
+                return NoPermissionError("reply to this thread");
 
             SetCurrentLocation(thread);
 
@@ -103,6 +109,9 @@ namespace Forum.Controllers
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
             if (forum == null)
                 return ForumError("Invalid forum specified.");
+
+            if (!PermissionManager.CanCreateThread(forum))
+                return NoPermissionError("create a thread in this forum");
 
             SetCurrentLocation(forum);
 
