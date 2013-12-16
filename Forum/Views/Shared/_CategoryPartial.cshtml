@@ -26,7 +26,19 @@
                     <td class="forum-name">@Html.ActionLink(forum.Name, "Index", "Forum", new { id = forum.Id }, null)</td>
                     <td class="thread-count">@(canSeeThreads ? forum.Thread.Count.ToString() : "N/A")</td>
                     <td class="post-count">@(canSeeThreads ? forum.Thread.SelectMany(t => t.Post).Count().ToString() : "N/A")</td>
-                    <td class="last-post"> </td>
+                    <td class="last-post">
+                        @if (forum.Thread.Any())
+                        {
+                            var lastPost = forum.Thread.Last().Post.Last();
+                            
+                            @:by @lastPost.User.Name @Html.ActionLink(" ", "Index", "Thread", new { id = lastPost.ThreadId }, new { @class = "glyphicon glyphicon-circle-arrow-right" })<br />
+                            @lastPost.PostTime
+                        }
+                        else
+                        {
+                            <em>(no threads in forum)</em>
+                        }
+                    </td>
                 </tr>
             }
             if(forums.Count() < 1)
