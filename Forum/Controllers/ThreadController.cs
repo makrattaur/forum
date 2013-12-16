@@ -226,5 +226,48 @@ namespace Forum.Controllers
 
             return RedirectToAction("Index", new { id = thread.Id });
         }
+
+        //
+        // GET: /Thread/Delete/
+
+        [Authorize]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+                return ForumError("No thread specified.");
+
+            var thread = ForumDatabase.Thread.SingleOrDefault(f => f.Id == id);
+            if (thread == null)
+                return ForumError("Invalid thread specified.");
+
+            if (!PermissionManager.CanDeletePost(thread.Post.First()))
+                return NoPermissionError("delete a thread in this forum");
+
+            SetCurrentLocation(thread);
+
+            return View(thread);
+        }
+
+        //
+        // POST: /Thread/Delete/
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteSubmitted(int? id)
+        {
+            var thread = ForumDatabase.Thread.SingleOrDefault(f => f.Id == id);
+            if (thread == null)
+                return ForumError("Invalid thread specified.");
+
+            var forumId = thread.ForumId;
+
+            ForumDatabase.Post.DeleteAllOnSubmit(thread.Post);
+            ForumDatabase.Thread.DeleteOnSubmit(thread);
+            ForumDatabase.SubmitChanges();
+
+            return RedirectToAction("Index", "Forum", new { id = forumId });
+        }
     }
 }

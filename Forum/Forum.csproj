@@ -274,6 +274,7 @@
     <Content Include="Views\Thread\Index.cshtml" />
     <Content Include="Views\Shared\ForumError.cshtml" />
     <Content Include="Views\Thread\Edit.cshtml" />
+    <Content Include="Views\Thread\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
