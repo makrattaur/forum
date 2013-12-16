@@ -15,9 +15,15 @@ namespace Forum.Controllers
         //
         // GET: /Thread/
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int? id)
         {
+            if (id == null)
+                return ForumError("No thread specified.");
+
             var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
+            if (thread == null)
+                return ForumError("Invalid thread specified.");
+
             SetCurrentLocation(thread);
 
             return View(new ThreadViewModel() 
@@ -31,15 +37,21 @@ namespace Forum.Controllers
         // GET: /Thread/Reply/
 
         [Authorize]
-        public ActionResult Reply(int id)
+        public ActionResult Reply(int? id)
         {
+            if (id == null)
+                return ForumError("No thread specified.");
+
             var thread = ForumDatabase.Thread.Where(t => t.Id == id).SingleOrDefault();
+            if (thread == null)
+                return ForumError("Invalid thread specified.");
+
             SetCurrentLocation(thread);
 
             return View(new ThreadReplyModel()
             {
                 Thread = thread,
-                ThreadId = id
+                ThreadId = id.Value
             });
         }
 
@@ -83,16 +95,22 @@ namespace Forum.Controllers
         // GET: /Thread/Create/
 
         [Authorize]
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+                return ForumError("No forum specified.");
+
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
+            if (forum == null)
+                return ForumError("Invalid forum specified.");
+
             SetCurrentLocation(forum);
 
             // TODO: No permission error
 
             return View(new Models.ThreadCreationModel()
             {
-                ForumId = id,
+                ForumId = id.Value,
                 Forum = forum
             });
         }

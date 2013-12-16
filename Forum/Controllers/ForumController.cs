@@ -14,9 +14,15 @@ namespace Forum.Controllers
         //
         // GET: /Forum/
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int? id)
         {
+            if (id == null)
+                return ForumError("No forum specified.");
+
             var forum = ForumDatabase.Forum.SingleOrDefault(f => f.Id == id);
+            if (forum == null)
+                return ForumError("Invalid forum specified.");
+
             SetCurrentLocation(forum);
 
             return View(new ForumViewModel()
@@ -29,9 +35,15 @@ namespace Forum.Controllers
         //
         // GET: /Forum/Category
 
-        public ActionResult Category(int id)
+        public ActionResult Category(int? id)
         {
+            if (id == null)
+                return ForumError("No category specified.");
+
             var category = ForumDatabase.Category.Single(c => c.Id == id);
+            if (id == null)
+                return ForumError("Invalid category specified.");
+
             SetCurrentLocation(category);
 
             return View(new ViewModels.CategoryViewModel()
