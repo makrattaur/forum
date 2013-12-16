@@ -11,7 +11,8 @@ namespace Forum.Controllers
 {
     public class BaseController : Controller
     {
-        protected ForumDataContext ForumDatabase = new ForumDataContext();
+        private static string connectionString = "Server=(LocalDb)\\v11.0;Initial Catalog=Forum;AttachDBFilename=|DataDirectory|\\Forum.mdf;Integrated Security=True";
+        protected ForumDataContext ForumDatabase = new ForumDataContext(connectionString);
         protected User CurrentForumUser;
         protected UserPermissionManager PermissionManager;
 
