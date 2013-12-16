@@ -5,54 +5,61 @@
 
 <h2>@Model.Thread.Title</h2>
 
-@foreach (var post in Model.Thread.Post)
-{
-	<div class="panel panel-default post clearfix" id="@("post" + post.Id)">
-        <div class="panel-body">
-		    <div class="info clearfix">
-			    <span class="date pull-left">
-				    @post.PostTime
-			    </span>
-			    <span class="permalink pull-right">
-                    @Html.ActionLink("#" + post.Id, "Index", "Thread", null, null, "post" + post.Id, null, null)
-			    </span>
-		    </div> <!-- <div class="info clearfix"> -->
-		    <div class="body clearfix">
-			    <div class="outer-content pull-left">
-				    <div class="content">
-					    @post.Content
-				    </div>
-			    </div> <!-- <div class="outer-content pull-left"> -->
-			    <div class="poster-info pull-left">
-				    <div class="name">
-					    @Html.ActionLink(post.User.Name, "Index", "User", new { id = post.User.Id }, null)
-				    </div>
-                    @*
-				    <span class="avatar">
-					    <a href="profile"><img src="~/Content/avatar.png" /></a>
-				    </span>
-                    *@
-				    <div class="join-date">
-					    @post.User.JoinTime.Value.ToString("MMMM yyyy")
-				    </div>
-				    <div class="post-count">
-					    @post.User.Post.Count Posts
-				    </div>
-			    </div> <!-- <div class="poster-info pull-left"> -->
-		    </div> <!-- <div class="body clearfix"> -->
-		    <div class="footer clearfix">
-		        <div class="actions pull-right">
-			        @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" }) |
-			        @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" }) |
-			        @Html.ActionLink("Reply", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
-		        </div> <!--  <div class="actions pull-right"> -->
-		    </div> <!-- <div class="footer clearfix"> -->
-        </div> <!-- <div class="panel-body"> -->
-	</div> <!-- <div class="panel panel-default post clearfix" id="..."> -->
-}
+@{
+    var canReply = Model.PermissionManager.CanReplyInThread(Model.Thread);
+       
+    foreach (var post in Model.Thread.Post)
+    {
+	    <div class="panel panel-default post clearfix" id="@("post" + post.Id)">
+            <div class="panel-body">
+		        <div class="info clearfix">
+			        <span class="date pull-left">
+				        @post.PostTime
+			        </span>
+			        <span class="permalink pull-right">
+                        @Html.ActionLink("#" + post.Id, "Index", "Thread", null, null, "post" + post.Id, null, null)
+			        </span>
+		        </div> <!-- <div class="info clearfix"> -->
+		        <div class="body clearfix">
+			        <div class="outer-content pull-left">
+				        <div class="content">
+					        @post.Content
+				        </div>
+			        </div> <!-- <div class="outer-content pull-left"> -->
+			        <div class="poster-info pull-left">
+				        <div class="name">
+					        @Html.ActionLink(post.User.Name, "Index", "User", new { id = post.User.Id }, null)
+				        </div>
+                        @*
+				        <span class="avatar">
+					        <a href="profile"><img src="~/Content/avatar.png" /></a>
+				        </span>
+                        *@
+				        <div class="join-date">
+					        @post.User.JoinTime.Value.ToString("MMMM yyyy")
+				        </div>
+				        <div class="post-count">
+					        @post.User.Post.Count Posts
+				        </div>
+			        </div> <!-- <div class="poster-info pull-left"> -->
+		        </div> <!-- <div class="body clearfix"> -->
+		        <div class="footer clearfix">
+		            <div class="actions pull-right">
+			            @Html.ActionLink("Delete", "Delete", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+			            @Html.ActionLink("Edit", "Edit", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+                        @if(canReply)
+                        {
+			                @Html.ActionLink("Reply", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-default btn-xs" })
+                        }
+		            </div> <!--  <div class="actions pull-right"> -->
+		        </div> <!-- <div class="footer clearfix"> -->
+            </div> <!-- <div class="panel-body"> -->
+	    </div> <!-- <div class="panel panel-default post clearfix" id="..."> -->
+    }
 
-@if(Request.IsAuthenticated)
-{
-    @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-primary" }) <br />
+    if(canReply)
+    {
+        @Html.ActionLink("Reply to thread", "Reply", "Thread", new { id = Model.Thread.Id }, new { @class = "btn btn-primary" }) <br />
+    }
 }
 @Html.ActionLink("Back to threads", "Index", "Forum", new { id = Model.Thread.ForumId }, null)
