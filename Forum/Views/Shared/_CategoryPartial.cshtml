@@ -21,10 +21,11 @@
             var forums = Model.Category.Forum.OrderBy(f => f.Order).Where(f => Model.PermissionManager.CanSeeForum(f));
             foreach (var forum in forums)
             {
+                var canSeeThreads = Model.PermissionManager.CanSeeForumThreads(forum);
                 <tr>
                     <td class="forum-name">@Html.ActionLink(forum.Name, "Index", "Forum", new { id = forum.Id }, null)</td>
-                    <td class="thread-count">@forum.Thread.Count</td>
-                    <td class="post-count">@forum.Thread.SelectMany(t => t.Post).Count()</td>
+                    <td class="thread-count">@(canSeeThreads ? forum.Thread.Count.ToString() : "N/A")</td>
+                    <td class="post-count">@(canSeeThreads ? forum.Thread.SelectMany(t => t.Post).Count().ToString() : "N/A")</td>
                     <td class="last-post"> </td>
                 </tr>
             }
