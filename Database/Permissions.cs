@@ -14,13 +14,13 @@ namespace Database
         ReadThread = 0x004,
         CreateThread = 0x008,
         ReplyThread = 0x010,
-        EditOwnThread = 0x020,
-        DeleteOwnThread = 0x040,
+        EditOwnPost = 0x020, // Includes the thread. (A thread has a first post)
+        DeleteOwnPost = 0x040, // Includes the thread. (A thread has a first post)
         StickyThread = 0x080,
         MoveThread = 0x100,
-        EditThread = 0x200,
-        DeleteThread = 0x400,
-        StandardPermissions = ViewForum | SeeThread | ReadThread | CreateThread | ReplyThread | EditOwnThread | DeleteOwnThread,
-        AllPermissions = StandardPermissions | StickyThread | MoveThread | EditThread | DeleteThread
+        EditPost = 0x200, // Includes the thread. (A thread has a first post)
+        DeletePost = 0x400, // Includes the thread. (A thread has a first post)
+        StandardPermissions = ViewForum | SeeThread | ReadThread | CreateThread | ReplyThread | EditOwnPost | DeleteOwnPost,
+        AllPermissions = StandardPermissions | StickyThread | MoveThread | EditPost | DeletePost
     }
 }

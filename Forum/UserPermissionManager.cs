@@ -38,16 +38,16 @@ namespace Forum
             return HasPermission(forum, Permissions.CreateThread);
         }
 
-        public bool CanEditThread(Thread thread)
+        public bool CanEditPost(Post post)
         {
-            return HasPermission(thread.Forum, Permissions.EditOwnThread) ||
-                HasPermission(thread.Forum, Permissions.EditThread);
+            return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.EditOwnPost) :
+                HasPermission(post.Thread.Forum, Permissions.EditPost);
         }
 
-        public bool CanDeleteThread(Thread thread)
+        public bool CanDeletePost(Post post)
         {
-            return HasPermission(thread.Forum, Permissions.DeleteOwnThread) ||
-                HasPermission(thread.Forum, Permissions.DeleteThread);
+            return post.User.Id == user.Id ? HasPermission(post.Thread.Forum, Permissions.DeleteOwnPost) :
+                HasPermission(post.Thread.Forum, Permissions.DeletePost);
         }
 
         public bool CanReplyInThread(Thread thread)
