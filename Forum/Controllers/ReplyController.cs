@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace Forum.Controllers
 {
-    public class PostController : BaseController
+    public class ReplyController : BaseController
     {
         //
-        // GET: /Post/Delete
+        // GET: /Reply/Delete
 
         public ActionResult Delete()
         {
@@ -17,7 +17,7 @@ namespace Forum.Controllers
         }
 
         //
-        // GET: /Post/Edit
+        // GET: /Reply/Edit
 
         public ActionResult Edit()
         {

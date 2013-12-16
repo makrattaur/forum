@@ -49,7 +49,7 @@
                         @{
                             var canEdit = Model.PermissionManager.CanEditPost(post);
                             var canDelete = Model.PermissionManager.CanDeletePost(post);
-                            var controllerName = firstPost ? "Thread" : "Post";
+                            var controllerName = firstPost ? "Thread" : "Reply";
                             var linkId = firstPost ? Model.Thread.Id : post.Id;
                             
                             if(canDelete)
